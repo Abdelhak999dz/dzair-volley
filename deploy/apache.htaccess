@@ -1,0 +1,50 @@
+# =====================================================================
+#  Dzair Volley — Apache (.htaccess) for shared hosting / cPanel
+#  Upload as ".htaccess" next to index.html inside the built dist/ folder.
+#  Requires mod_headers, mod_rewrite (enabled on virtually every host).
+# =====================================================================
+Options -Indexes -MultiViews
+ServerSignature Off
+
+<IfModule mod_headers.c>
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' blob: data: https:; connect-src 'self' https://ejvzspiztdzbgjkkearp.supabase.co wss://ejvzspiztdzbgjkkearp.supabase.co https://volleyball.highlightly.net https://volleyball-highlights-api.p.rapidapi.com https://api.mymemory.translated.net; frame-src https://www.youtube-nocookie.com https://www.youtube.com https://player.vimeo.com https://www.dailymotion.com https://www.facebook.com https://web.facebook.com https://www.instagram.com https://www.tiktok.com https://drive.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+  Header always set X-Frame-Options "DENY"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+  Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  Header always set Cross-Origin-Resource-Policy "same-origin"
+  Header always set X-Robots-Tag "noai, noimageai"
+  Header unset X-Powered-By
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # force HTTPS
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # block AI crawlers, bulk scrapers and headless browsers by User-Agent
+  # (robots.txt itself stays reachable). Review before enabling.
+  RewriteCond %{REQUEST_URI} !^/robots\.txt$
+  RewriteCond %{HTTP_USER_AGENT} (GPTBot|ChatGPT-User|OAI-SearchBot|ClaudeBot|Claude-Web|Claude-SearchBot|Claude-User|anthropic-ai|Google-Extended|GoogleOther|Applebot-Extended|meta-externalagent|meta-externalfetcher|FacebookBot|Amazonbot|PerplexityBot|Perplexity-User|YouBot|CCBot|Bytespider|TikTokSpider|cohere-ai|Diffbot|ImagesiftBot|Omgilibot|omgili|Timpibot|VelenPublicWebCrawler|Webzio|Ai2Bot|SBIntuitionsBot|PanguBot|DuckAssistBot|MistralAI-User|img2dataset|AhrefsBot|SemrushBot|MJ12bot|DotBot|BLEXBot|DataForSeoBot|MegaIndex|serpstatbot|Barkrowler|PetalBot|HTTrack|WebCopier|WebZIP|Teleport|SiteSucker|Offline Explorer|python-requests|python-urllib|scrapy|Go-http-client|aiohttp|libwww-perl|Java/|okhttp-scraper|HeadlessChrome|PhantomJS|Puppeteer|Playwright|Selenium) [NC,OR]
+  RewriteCond %{HTTP_USER_AGENT} ^$
+  RewriteRule ^ - [F,L]
+
+  # hot-linking: only this site may embed our images / videos
+  RewriteCond %{HTTP_REFERER} !^$
+  RewriteCond %{HTTP_REFERER} !^https?://(www\.)?dzairvolley\.example [NC]
+  RewriteRule \.(jpe?g|png|gif|webp|svg|mp4|webm)$ - [F,NC,L]
+
+  # single-page-app fallback
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ /index.html [L]
+</IfModule>
+
+# never expose dotfiles (except .well-known), source maps, SQL or env files
+<FilesMatch "(^\.(?!well-known)|\.(map|env|sh|sql|md)$)">
+  Require all denied
+</FilesMatch>

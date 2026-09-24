@@ -1,0 +1,17 @@
+# Security headers for Netlify and Cloudflare Pages (served from the site root).
+# If you use another host, see vercel.json (Vercel) or deploy/ (nginx, Apache).
+# Update the Supabase host below if you ever change VITE_SUPABASE_URL.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' blob: data: https:; connect-src 'self' https://ejvzspiztdzbgjkkearp.supabase.co wss://ejvzspiztdzbgjkkearp.supabase.co https://volleyball.highlightly.net https://volleyball-highlights-api.p.rapidapi.com https://api.mymemory.translated.net; frame-src https://www.youtube-nocookie.com https://www.youtube.com https://player.vimeo.com https://www.dailymotion.com https://www.facebook.com https://web.facebook.com https://www.instagram.com https://www.tiktok.com https://drive.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  X-Robots-Tag: noai, noimageai
+  X-Permitted-Cross-Domain-Policies: none
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable

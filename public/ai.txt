@@ -1,0 +1,16 @@
+# ai.txt — content-usage policy (Spawning "ai.txt" convention)
+# Dzair Volley's text, images, videos and data may NOT be used to train,
+# fine-tune or ground AI/ML models, or be bulk-copied, without written permission.
+User-Agent: *
+Disallow: *.txt
+Disallow: *.jpg
+Disallow: *.jpeg
+Disallow: *.png
+Disallow: *.webp
+Disallow: *.gif
+Disallow: *.svg
+Disallow: *.mp4
+Disallow: *.webm
+Disallow: *.html
+Disallow: *.json
+Contact: dzair.volley@gmail.com

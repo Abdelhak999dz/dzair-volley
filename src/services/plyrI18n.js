@@ -1,0 +1,130 @@
+// ============================================================
+// Plyr UI strings (tooltips / aria-labels of the player controls) for the
+// site's three UI languages. Plyr merges this object over its own English
+// defaults, so any key that is missing here simply stays English.
+//
+// `{seektime}`, `{currentTime}`, `{duration}` and `{title}` are Plyr's own
+// placeholders — they must be kept verbatim inside the translated text.
+// ============================================================
+
+const AR = {
+  restart: 'إعادة من البداية',
+  rewind: 'رجوع {seektime} ث',
+  play: 'تشغيل',
+  pause: 'إيقاف مؤقت',
+  fastForward: 'تقديم {seektime} ث',
+  seek: 'تنقّل في الفيديو',
+  seekLabel: '{currentTime} من {duration}',
+  played: 'تم تشغيله',
+  buffered: 'تم تحميله',
+  currentTime: 'الوقت الحالي',
+  duration: 'المدة',
+  volume: 'مستوى الصوت',
+  mute: 'كتم الصوت',
+  unmute: 'إلغاء كتم الصوت',
+  enableCaptions: 'تفعيل الترجمة',
+  disableCaptions: 'إيقاف الترجمة',
+  download: 'تنزيل',
+  enterFullscreen: 'ملء الشاشة',
+  exitFullscreen: 'الخروج من ملء الشاشة',
+  frameTitle: 'مشغّل {title}',
+  captions: 'الترجمة',
+  settings: 'الإعدادات',
+  pip: 'صورة داخل صورة',
+  menuBack: 'الرجوع إلى القائمة السابقة',
+  speed: 'السرعة',
+  normal: 'عادية',
+  quality: 'الجودة',
+  loop: 'تكرار',
+  start: 'البداية',
+  end: 'النهاية',
+  all: 'الكل',
+  reset: 'إعادة الضبط',
+  disabled: 'معطّل',
+  enabled: 'مفعّل',
+  advertisement: 'إعلان',
+};
+
+const EN = {
+  restart: 'Restart',
+  rewind: 'Rewind {seektime}s',
+  play: 'Play',
+  pause: 'Pause',
+  fastForward: 'Forward {seektime}s',
+  seek: 'Seek',
+  seekLabel: '{currentTime} of {duration}',
+  played: 'Played',
+  buffered: 'Buffered',
+  currentTime: 'Current time',
+  duration: 'Duration',
+  volume: 'Volume',
+  mute: 'Mute',
+  unmute: 'Unmute',
+  enableCaptions: 'Enable captions',
+  disableCaptions: 'Disable captions',
+  download: 'Download',
+  enterFullscreen: 'Enter fullscreen',
+  exitFullscreen: 'Exit fullscreen',
+  frameTitle: 'Player for {title}',
+  captions: 'Captions',
+  settings: 'Settings',
+  pip: 'Picture-in-picture',
+  menuBack: 'Go back to previous menu',
+  speed: 'Speed',
+  normal: 'Normal',
+  quality: 'Quality',
+  loop: 'Loop',
+  start: 'Start',
+  end: 'End',
+  all: 'All',
+  reset: 'Reset',
+  disabled: 'Disabled',
+  enabled: 'Enabled',
+  advertisement: 'Ad',
+};
+
+const FR = {
+  restart: 'Recommencer',
+  rewind: 'Reculer de {seektime} s',
+  play: 'Lecture',
+  pause: 'Pause',
+  fastForward: 'Avancer de {seektime} s',
+  seek: 'Se déplacer dans la vidéo',
+  seekLabel: '{currentTime} sur {duration}',
+  played: 'Lu',
+  buffered: 'Mis en mémoire',
+  currentTime: 'Temps écoulé',
+  duration: 'Durée',
+  volume: 'Volume',
+  mute: 'Couper le son',
+  unmute: 'Réactiver le son',
+  enableCaptions: 'Activer les sous-titres',
+  disableCaptions: 'Désactiver les sous-titres',
+  download: 'Télécharger',
+  enterFullscreen: 'Plein écran',
+  exitFullscreen: 'Quitter le plein écran',
+  frameTitle: 'Lecteur pour {title}',
+  captions: 'Sous-titres',
+  settings: 'Paramètres',
+  pip: 'Image dans l’image',
+  menuBack: 'Retour au menu précédent',
+  speed: 'Vitesse',
+  normal: 'Normale',
+  quality: 'Qualité',
+  loop: 'Boucle',
+  start: 'Début',
+  end: 'Fin',
+  all: 'Tout',
+  reset: 'Réinitialiser',
+  disabled: 'Désactivé',
+  enabled: 'Activé',
+  advertisement: 'Publicité',
+};
+
+const BY_LANG = { ar: AR, en: EN, fr: FR };
+
+// Any other language code falls back to Arabic, the site's default —
+// the same fallback `translate()` in LanguageContext.jsx uses.
+export function getPlyrI18n(lang) {
+  return BY_LANG[lang] || AR;
+}

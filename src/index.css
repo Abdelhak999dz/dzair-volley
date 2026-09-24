@@ -1,0 +1,3370 @@
+/* ============================================================
+   WORLD VOLLEYBALL HUB (V-HUB) — GLOBAL STYLES
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Inter:wght@400;600;700;800;900&display=swap');
+
+:root {
+  /* Core Palette — Oceanic Navy + Electric Neon (dark theme only) */
+  --navy: #050b1a;
+  --navy-deep: #030711;
+  --navy-light: #0a1428;
+  --card-bg: #0d1a2e;
+  --card-bg-alt: #0f1f36;
+
+  --cyan: #00e5ff;
+  --cyan-soft: rgba(0, 229, 255, 0.35);
+  --gold: #ffc93c;
+  --gold-soft: rgba(255, 201, 60, 0.35);
+  --gold-bright: #ffe9a8;
+  --gold-classic: #d4af37;
+  --gold-deep: #b8860b;
+  --emerald: #00b871;
+  --emerald-soft: rgba(0, 184, 113, 0.35);
+  --crimson: #e8112d;
+  --crimson-soft: rgba(232, 17, 45, 0.35);
+
+  --white: #f4f8fc;
+  --gray-text: #8fa1bd;
+  --border-color: rgba(0, 229, 255, 0.12);
+  --glass-bg: rgba(13, 26, 46, 0.6);
+
+  /* Translucent "glass" card tones used across match/schedule/news/stat cards */
+  --glass-card: rgba(13, 26, 46, 0.55);
+  --glass-card-alt: rgba(15, 31, 54, 0.55);
+  --glass-navbar-scrolled: rgba(5, 11, 26, 0.82);
+  --glass-badge: rgba(5, 11, 26, 0.65);
+  --glass-btn-secondary: rgba(13, 26, 46, 0.4);
+
+  /* Hero video overlay gradient stops, as an R,G,B triplet so alpha can
+     vary per stop (see rgba(var(...)) usage in .hero-video-overlay) */
+  --overlay-rgb: 3, 7, 17;
+
+  /* Text that sits on top of bright accent surfaces (neon buttons, gold
+     badges) — always dark for contrast */
+  --on-accent: #050b1a;
+
+  --shadow-deep: 0 25px 70px rgba(0, 0, 0, 0.65);
+  --shadow-glow-cyan: 0 0 40px var(--cyan-soft);
+  --shadow-glow-gold: 0 0 40px var(--gold-soft);
+
+  --radius-lg: 22px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-med: 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Tajawal', 'Inter', sans-serif;
+  background: var(--navy);
+  color: var(--white);
+  /* direction is controlled dynamically by the language switcher via the
+     <html dir> attribute (see LanguageContext) — not hardcoded here so
+     LTR (English/French) can render correctly. index.html defaults to
+     dir="rtl" for the initial Arabic paint. */
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+  position: relative;
+}
+
+img { max-width: 100%; display: block; }
+button { font-family: inherit; cursor: pointer; border: none; outline: none; background: none; }
+a { text-decoration: none; color: inherit; }
+input, textarea, select { font-family: inherit; }
+ul { list-style: none; }
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--navy-deep); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--cyan), var(--emerald));
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--gold), var(--crimson));
+}
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+.container { max-width: 1320px; margin: 0 auto; padding: 0 24px; }
+
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 18px;
+  border-radius: 30px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  border: 1px solid var(--border-color);
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+}
+
+.eyebrow-cyan { color: var(--cyan); border-color: rgba(0,229,255,0.4); }
+.eyebrow-gold { color: var(--gold); border-color: rgba(255,201,60,0.4); }
+.eyebrow-emerald { color: var(--emerald); border-color: rgba(0,184,113,0.4); }
+.eyebrow-crimson { color: var(--crimson); border-color: rgba(232,17,45,0.4); }
+
+.section-title {
+  font-size: clamp(1.9rem, 4vw, 2.7rem);
+  font-weight: 900;
+  margin: 16px 0 1.75rem;
+  background: linear-gradient(90deg, var(--white) 30%, var(--cyan) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-subtitle {
+  color: var(--gray-text);
+  font-size: 1.02rem;
+  margin-bottom: 44px;
+  max-width: 640px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 30px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.badge-cyan { background: var(--cyan-soft); color: var(--cyan); border: 1px solid rgba(0,229,255,0.5); }
+.badge-gold { background: var(--gold-soft); color: var(--gold); border: 1px solid rgba(255,201,60,0.5); }
+.badge-emerald { background: var(--emerald-soft); color: var(--emerald); border: 1px solid rgba(0,184,113,0.5); }
+.badge-crimson { background: var(--crimson-soft); color: var(--crimson); border: 1px solid rgba(232,17,45,0.5); }
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--border-color);
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+@keyframes floatBallA {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  25%  { transform: translate(20px, -30px) rotate(90deg); }
+  50%  { transform: translate(-10px, -60px) rotate(180deg); }
+  75%  { transform: translate(-30px, -20px) rotate(270deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+@keyframes floatBallB {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  33%  { transform: translate(-25px, 25px) rotate(-120deg); }
+  66%  { transform: translate(15px, 45px) rotate(-240deg); }
+  100% { transform: translate(0, 0) rotate(-360deg); }
+}
+@keyframes pulseRing {
+  0%   { box-shadow: 0 0 0 0 var(--cyan-soft); }
+  70%  { box-shadow: 0 0 0 18px rgba(0,229,255,0); }
+  100% { box-shadow: 0 0 0 0 rgba(0,229,255,0); }
+}
+@keyframes meshMove {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 120px 120px, -120px 80px; }
+}
+@keyframes logoGlowPulse {
+  0%, 100% { filter: drop-shadow(0 0 14px rgba(0,229,255,0.55)); }
+  50% { filter: drop-shadow(0 0 26px rgba(255,201,60,0.55)); }
+}
+@keyframes countPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+@keyframes slideInRight { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes liveDot { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+.animate-fade-up { animation: fadeInUp 0.8s ease forwards; }
+.animate-fade { animation: fadeIn 1s ease forwards; }
+
+/* Scroll-triggered reveal — elements fade/rise into view via IntersectionObserver */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s cubic-bezier(0.4, 0, 0.2, 1), transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ============================================================
+   PARTICLE / MESH BACKGROUND (used behind hero + sections)
+   ============================================================ */
+.mesh-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    radial-gradient(rgba(0,229,255,0.18) 1.5px, transparent 1.5px),
+    radial-gradient(rgba(255,201,60,0.12) 1.5px, transparent 1.5px);
+  background-size: 46px 46px, 70px 70px;
+  background-position: 0 0, 25px 25px;
+  animation: meshMove 18s linear infinite;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.stadium-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(0,229,255,0.22) 0%, transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(255,201,60,0.16) 0%, transparent 45%),
+    radial-gradient(circle at 50% 90%, rgba(0,184,113,0.18) 0%, transparent 50%),
+    linear-gradient(160deg, var(--navy-deep) 0%, var(--navy) 55%, var(--navy-deep) 100%);
+  background-size: 200% 200%, 200% 200%, 200% 200%, 200% 200%;
+  animation: gradientShift 18s ease infinite;
+  pointer-events: none;
+}
+
+.floating-ball {
+  position: absolute;
+  font-size: 2.6rem;
+  opacity: 0.22;
+  z-index: 1;
+  pointer-events: none;
+  filter: drop-shadow(0 0 12px rgba(0,229,255,0.4));
+}
+.fb-a { animation: floatBallA 9s ease-in-out infinite; }
+.fb-b { animation: floatBallB 11s ease-in-out infinite; }
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 18px 0;
+  transition: var(--transition-med);
+  border-bottom: 1px solid transparent;
+}
+.navbar.scrolled {
+  background: var(--glass-navbar-scrolled);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-color);
+  padding: 12px 0;
+}
+.navbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: nowrap; }
+
+/* 3D LOGO */
+.vhub-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.vhub-logo-mark {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--on-accent);
+  object-fit: cover;
+  background: linear-gradient(145deg, var(--gold-bright) 0%, var(--gold-classic) 55%, var(--gold-deep) 100%);
+  box-shadow:
+    0 4px 0 rgba(0,0,0,0.35),
+    0 8px 18px rgba(212,175,55,0.4),
+    inset 0 1px 2px rgba(255,255,255,0.6);
+  transform: perspective(300px) rotateX(8deg);
+  animation: logoGlowPulse 4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.vhub-logo-text {
+  font-family: 'Inter', 'Tajawal', sans-serif;
+  font-weight: 900;
+  font-size: 1.4rem;
+  letter-spacing: -0.6px;
+  line-height: 1.1;
+  white-space: nowrap;
+  background: linear-gradient(100deg, var(--gold-bright) 0%, var(--gold) 24%, var(--gold-classic) 48%, var(--gold-deep) 68%, var(--gold) 88%, var(--gold-bright) 100%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 5s linear infinite, brandTextGlow 3.2s ease-in-out infinite;
+  filter: drop-shadow(0 2px 10px rgba(212, 175, 55, 0.3));
+}
+@keyframes brandTextGlow {
+  0%, 100% {
+    filter:
+      drop-shadow(0 0 6px rgba(255, 201, 60, 0.6))
+      drop-shadow(0 2px 12px rgba(0, 0, 0, 0.4));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 12px rgba(212, 175, 55, 0.75))
+      drop-shadow(0 2px 14px rgba(0, 0, 0, 0.4));
+  }
+}
+.vhub-logo-mark-wrap { position: relative; flex-shrink: 0; display: inline-flex; }
+.vhub-logo-title-row { display: inline-flex; align-items: center; gap: 6px; }
+.vhub-logo-text-edit { display: inline-flex; align-items: center; gap: 6px; }
+.vhub-logo-text-input {
+  font-family: 'Inter', 'Tajawal', sans-serif;
+  font-weight: 900;
+  font-size: 1.2rem;
+  color: var(--white);
+  background: var(--glass-card);
+  border: 1px solid var(--gold-classic);
+  border-radius: 8px;
+  padding: 4px 10px;
+  max-width: 180px;
+}
+.brand-edit-overlay-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid var(--gold-classic);
+  background: var(--glass-badge);
+  color: var(--gold-bright);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  -webkit-text-fill-color: initial;
+}
+.brand-edit-overlay-btn svg { width: 13px; height: 13px; }
+.brand-edit-overlay-btn:hover { transform: scale(1.08); box-shadow: 0 0 10px var(--gold-soft); }
+.brand-edit-overlay-btn--logo {
+  position: absolute;
+  bottom: -4px;
+  inset-inline-end: -4px;
+  width: 20px;
+  height: 20px;
+  background: var(--dark-navy, #050b1a);
+}
+.brand-edit-overlay-btn--logo svg { width: 11px; height: 11px; }
+.brand-edit-overlay-btn--name { width: 20px; height: 20px; }
+.brand-edit-overlay-btn--name svg { width: 11px; height: 11px; }
+.brand-edit-overlay-btn--inline { width: 22px; height: 22px; }
+
+/* Hero branding overlay (camera icon on the main hero logo badge) */
+.hero-banner-edit-btn {
+  position: absolute;
+  bottom: 6px;
+  inset-inline-end: 6px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--glass-badge);
+  border: 2px solid var(--gold-classic);
+  color: var(--gold-bright);
+  cursor: pointer;
+  z-index: 3;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hero-banner-edit-btn:hover { transform: scale(1.08); box-shadow: 0 0 16px var(--gold-soft); }
+.hero-banner-edit-btn svg { width: 18px; height: 18px; }
+
+.vhub-logo-text small {
+  display: block;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--gray-text);
+  -webkit-text-fill-color: var(--gray-text);
+  background: none;
+  filter: none;
+  animation: none;
+  margin-top: 1px;
+}
+
+/* Inline gold-branded mention of "Dzair Volley" outside the main logo lockup */
+.brand-gold-text {
+  font-weight: 800;
+  background: linear-gradient(100deg, var(--gold-bright) 0%, var(--gold) 30%, var(--gold-classic) 60%, var(--gold-deep) 100%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 5s linear infinite;
+}
+
+.nav-links { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.nav-links button {
+  position: relative;
+  color: var(--white);
+  font-size: 0.92rem;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: 30px;
+  white-space: nowrap;
+  transition: background 0.35s cubic-bezier(0.4, 0, 0.2, 1), color 0.35s ease, text-shadow 0.35s ease;
+}
+.nav-links button:hover {
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--gold-bright);
+  text-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+}
+.nav-links button.live-link { color: var(--crimson); display: flex; align-items: center; gap: 6px; }
+.nav-links button.live-link .live-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--crimson);
+  animation: liveDot 1.4s ease-in-out infinite;
+  box-shadow: 0 0 8px var(--crimson);
+}
+
+.nav-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; white-space: nowrap; }
+
+/* ============================================================
+   SOCIAL LINKS (navbar / mobile menu / footer)
+   ============================================================ */
+.social-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.social-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: var(--gray-text);
+  background: var(--glass-bg);
+  border: 1px solid var(--border-color);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  flex-shrink: 0;
+}
+.social-icon-btn svg {
+  width: 17px;
+  height: 17px;
+}
+.social-icon-btn:hover {
+  transform: translateY(-4px) scale(1.1);
+}
+
+/* Resting-state brand tint — each icon reads by its own official color
+   even before hovering (subtle glass background, colored glyph) */
+.social-icon-btn.social-email { color: var(--gold-classic); border-color: rgba(212, 175, 55, 0.35); }
+.social-icon-btn.social-facebook { color: #4d9bfa; border-color: rgba(24, 119, 242, 0.35); }
+.social-icon-btn.social-instagram { color: #e6683c; border-color: rgba(220, 39, 67, 0.35); }
+.social-icon-btn.social-tiktok { color: #fe2c55; border-color: rgba(254, 44, 85, 0.35); }
+.social-icon-btn.social-youtube { color: #ff4d4d; border-color: rgba(255, 0, 0, 0.35); }
+.social-icon-btn.social-x { color: #f5f5f5; border-color: rgba(245, 245, 245, 0.3); }
+.social-icon-btn.social-telegram { color: #29a9eb; border-color: rgba(41, 169, 235, 0.35); }
+
+/* Authentic per-platform brand colors, vivid and full on hover */
+.social-icon-btn.social-email:hover {
+  color: #ffffff;
+  background: linear-gradient(135deg, #EA4335, #FBBC05 60%, #34A853);
+  border-color: transparent;
+  box-shadow: 0 0 22px rgba(234, 67, 53, 0.65), 0 8px 20px rgba(234, 67, 53, 0.35);
+}
+.social-icon-btn.social-facebook:hover {
+  color: #ffffff;
+  background: #1877F2;
+  border-color: transparent;
+  box-shadow: 0 0 22px rgba(24, 119, 242, 0.65), 0 8px 20px rgba(24, 119, 242, 0.35);
+}
+.social-icon-btn.social-instagram:hover {
+  color: #ffffff;
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  border-color: transparent;
+  box-shadow: 0 0 24px rgba(220, 39, 67, 0.6), 0 8px 20px rgba(188, 24, 136, 0.4);
+}
+.social-icon-btn.social-tiktok:hover {
+  color: #ffffff;
+  background: linear-gradient(135deg, #25F4EE 0%, #0a0a0a 45%, #FE2C55 100%);
+  border-color: transparent;
+  box-shadow: 0 0 18px rgba(37, 244, 238, 0.65), 0 0 26px rgba(254, 44, 85, 0.55);
+}
+.social-icon-btn.social-youtube:hover {
+  color: #ffffff;
+  background: #FF0000;
+  border-color: transparent;
+  box-shadow: 0 0 22px rgba(255, 0, 0, 0.65), 0 8px 20px rgba(255, 0, 0, 0.35);
+}
+.social-icon-btn.social-x:hover {
+  color: #ffffff;
+  background: #0a0a0a;
+  border-color: #e8e8e8;
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.35), 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+.social-icon-btn.social-telegram:hover {
+  color: #ffffff;
+  background: #29a9eb;
+  border-color: transparent;
+  box-shadow: 0 0 22px rgba(41, 169, 235, 0.65), 0 8px 20px rgba(41, 169, 235, 0.35);
+}
+
+.social-links-navbar { margin-inline-end: 4px; }
+
+.social-links-mobile {
+  justify-content: center;
+  gap: 12px;
+  padding-top: 12px;
+  margin-top: 6px;
+  border-top: 1px solid var(--border-color);
+}
+.social-links-mobile .social-icon-btn { width: 40px; height: 40px; }
+
+.social-links-footer {
+  justify-content: center;
+  gap: 14px;
+  margin: 20px 0;
+}
+.social-links-footer .social-icon-btn { width: 44px; height: 44px; }
+.social-links-footer .social-icon-btn svg { width: 20px; height: 20px; }
+
+/* ============================================================
+   LANGUAGE SWITCHER (navbar / mobile menu)
+   ============================================================ */
+
+.lang-switcher {
+  position: relative;
+  flex-shrink: 0;
+}
+.lang-switcher-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 30px;
+  background: var(--glass-bg);
+  border: 1px solid var(--border-color);
+  color: var(--gold-bright);
+  font-weight: 800;
+  font-size: 0.82rem;
+  white-space: nowrap;
+  transition: border-color 0.35s cubic-bezier(0.4, 0, 0.2, 1), background 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), color 0.35s ease;
+}
+.lang-switcher-btn:hover {
+  color: var(--gold-classic);
+  border-color: var(--gold-classic);
+  background: rgba(212, 175, 55, 0.14);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.28);
+  transform: translateY(-2px);
+}
+.lang-code { letter-spacing: 1px; }
+.lang-caret {
+  font-size: 0.7rem;
+  color: inherit;
+  opacity: 0.75;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.lang-caret.open { transform: rotate(180deg); }
+
+.lang-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  inset-inline-end: 0;
+  min-width: 160px;
+  max-width: min(220px, calc(100vw - 32px));
+  max-height: min(360px, 70vh);
+  overflow-y: auto;
+  border-radius: var(--radius-md);
+  padding: 8px;
+  z-index: 60;
+  list-style: none;
+  box-shadow: var(--shadow-deep);
+  animation: fadeInUp 0.2s ease forwards;
+}
+.lang-option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  color: var(--white);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  text-align: start;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.lang-option:hover { background: rgba(212, 175, 55, 0.14); color: var(--gold-bright); }
+.lang-option.active {
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.22), transparent);
+  color: var(--gold-bright);
+  font-weight: 800;
+}
+
+.lang-switcher-mobile {
+  margin-top: 4px;
+}
+.lang-switcher-mobile .lang-switcher-btn {
+  width: 100%;
+  justify-content: center;
+}
+.lang-switcher-mobile .lang-dropdown {
+  position: static;
+  margin-top: 8px;
+  animation: none;
+}
+
+.btn-admin {
+  padding: 11px 26px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, var(--crimson), #ff3d5a);
+  color: var(--white);
+  font-weight: 800;
+  font-size: 0.88rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: var(--transition-fast);
+  box-shadow: 0 6px 22px var(--crimson-soft);
+  position: relative;
+  overflow: hidden;
+}
+.btn-admin::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+  transform: translateX(-120%);
+  transition: transform 0.6s ease;
+}
+.btn-admin:hover::after { transform: translateX(120%); }
+.btn-admin:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 10px 30px var(--crimson-soft), 0 0 26px rgba(255, 61, 90, 0.5);
+}
+
+.mobile-toggle { display: none; flex-direction: column; gap: 5px; padding: 6px; }
+.mobile-toggle span { width: 26px; height: 2px; background: var(--cyan); border-radius: 2px; transition: var(--transition-fast); }
+
+.mobile-menu {
+  margin: 16px 24px 0;
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mobile-menu button {
+  color: var(--white);
+  text-align: start;
+  font-weight: 700;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+}
+.mobile-menu button:hover { background: rgba(212, 175, 55, 0.1); color: var(--gold-bright); }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding-top: 90px;
+}
+
+/* Full-bleed real video background with high-contrast dark overlay */
+.hero-media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--navy-deep);
+  pointer-events: none;
+}
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(1.05) contrast(1.05);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Fallback animated net-mesh layer (see Hero.jsx) — kept behind the video
+   in the DOM so the video always paints over it once it renders, but it
+   stays 100% visible on mobile browsers that block/delay autoplay. */
+.hero-net-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  animation: heroNetFallbackPulse 6s ease-in-out infinite;
+}
+.hero-net-fallback svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+@keyframes heroNetFallbackPulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.9; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-net-fallback { animation: none; }
+}
+
+/* Mobile hero background fix (360px-480px, and safely up to tablet
+   widths): force the hero section and its media layer to fully cover
+   the viewport, matching desktop, instead of relying on min-height:
+   100vh alone (unreliable on mobile browsers due to dynamic toolbars
+   showing/hiding). 100dvh is declared after the 100vh fallback so
+   browsers without dvh support silently keep the vh value, while
+   browsers that support dvh use the accurate dynamic value. */
+@media (max-width: 767px) {
+  .hero {
+    min-height: 100vh;
+    min-height: 100dvh;
+    height: 100dvh;
+  }
+  .hero-media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+  .hero-video,
+  .hero-video-overlay,
+  .hero-net-fallback {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .hero-video {
+    object-fit: cover;
+    object-position: center center;
+  }
+}
+
+/* Narrow phones (360px-480px): identical coverage rules, kept as an
+   explicit tier so small-screen devices never inherit a mismatched
+   height from a wider mobile/tablet layout. */
+@media (max-width: 480px) {
+  .hero {
+    min-height: 100vh;
+    min-height: 100dvh;
+    height: 100dvh;
+  }
+  .hero-media,
+  .hero-video,
+  .hero-video-overlay,
+  .hero-net-fallback {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .hero-video {
+    object-fit: cover;
+    object-position: center center;
+  }
+}
+.hero-video-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(var(--overlay-rgb), 0.75) 0%, rgba(var(--overlay-rgb), 0.55) 35%, rgba(var(--overlay-rgb), 0.8) 75%, rgba(var(--overlay-rgb), 1) 100%),
+    radial-gradient(circle at 20% 25%, rgba(0,229,255,0.22) 0%, transparent 45%),
+    radial-gradient(circle at 85% 20%, rgba(255,201,60,0.14) 0%, transparent 45%);
+  backdrop-filter: saturate(1.1);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  max-width: 980px;
+  padding: 0 24px;
+}
+
+/* Circular golden badge logo — glowing aura, gentle float, hover elevation.
+   .hero-logo-wrap is the positioning container (also anchors the admin
+   camera-overlay button); .hero-logo-clickable is the real <button>
+   (clickable admin-login/dashboard entry point) inside it. */
+.hero-logo-wrap {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 34px;
+}
+.hero-logo-clickable {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: heroLogoFloat 5.5s ease-in-out infinite;
+  cursor: pointer;
+  border-radius: 50%;
+  background: none;
+  border: none;
+  padding: 0;
+}
+.hero-logo-clickable:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 8px;
+}
+
+.hero-logo-aura {
+  position: absolute;
+  inset: -30px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(255, 201, 60, 0.55) 0%,
+    rgba(0, 229, 255, 0.35) 45%,
+    rgba(0, 229, 255, 0) 72%);
+  filter: blur(14px);
+  animation: heroLogoAuraPulse 3.2s ease-in-out infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* A second, crisper "smart pulse" ring — a subtle sonar-style ping that
+   continuously radiates outward from the badge, reinforcing that it's a
+   live, tappable element rather than just decoration. */
+.hero-logo-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 233, 168, 0.55);
+  z-index: 1;
+  pointer-events: none;
+  animation: heroLogoSonarPing 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.hero-logo-img {
+  position: relative;
+  z-index: 2;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  filter:
+    drop-shadow(0 0 18px rgba(255, 201, 60, 0.6))
+    drop-shadow(0 0 34px rgba(0, 229, 255, 0.4))
+    drop-shadow(0 14px 22px rgba(0, 0, 0, 0.55));
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
+}
+
+.hero-logo-clickable:hover .hero-logo-img,
+.hero-logo-clickable:focus-visible .hero-logo-img {
+  transform: scale(1.1);
+  filter:
+    brightness(1.18)
+    drop-shadow(0 0 30px rgba(255, 201, 60, 0.9))
+    drop-shadow(0 0 54px rgba(0, 229, 255, 0.65))
+    drop-shadow(0 18px 28px rgba(0, 0, 0, 0.6));
+}
+.hero-logo-clickable:hover .hero-logo-aura,
+.hero-logo-clickable:focus-visible .hero-logo-aura {
+  animation-duration: 1.6s;
+}
+.hero-logo-clickable:hover .hero-logo-ring,
+.hero-logo-clickable:focus-visible .hero-logo-ring {
+  animation-duration: 1.1s;
+  border-color: rgba(255, 233, 168, 0.85);
+}
+
+@keyframes heroLogoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+@keyframes heroLogoAuraPulse {
+  0%, 100% {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+
+@keyframes heroLogoSonarPing {
+  0% { transform: scale(1); opacity: 0.9; }
+  70% { transform: scale(1.28); opacity: 0; }
+  100% { transform: scale(1.28); opacity: 0; }
+}
+
+.hero-3d-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+.hero-3d-mark {
+  width: 96px;
+  height: 96px;
+  border-radius: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 2.3rem;
+  font-weight: 900;
+  color: var(--on-accent);
+  letter-spacing: -1px;
+  margin-bottom: 18px;
+  background: linear-gradient(145deg, var(--cyan) 0%, var(--emerald) 55%, var(--gold) 100%);
+  box-shadow:
+    0 10px 0 rgba(0,0,0,0.35),
+    0 20px 45px rgba(0,229,255,0.4),
+    inset 0 2px 4px rgba(255,255,255,0.55);
+  transform: perspective(500px) rotateX(10deg);
+  animation: logoGlowPulse 4s ease-in-out infinite, floatBallB 7s ease-in-out infinite;
+}
+
+.hero-3d-title {
+  font-family: 'Inter', 'Tajawal', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.2rem, 5.4vw, 3.6rem);
+  letter-spacing: -1px;
+  line-height: 1.1;
+  background: linear-gradient(180deg, #ffffff 10%, var(--cyan) 55%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    0 4px 15px rgba(0, 229, 255, 0.45),
+    0 10px 25px rgba(0, 0, 0, 0.5),
+    0 25px 50px rgba(255, 201, 60, 0.25);
+}
+
+.hero-3d-title span.sub {
+  display: block;
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: 6px;
+  color: var(--gray-text);
+  -webkit-text-fill-color: var(--gray-text);
+  background: none;
+  text-shadow: none;
+  margin-top: 10px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 22px;
+  border-radius: 30px;
+  background: var(--glass-badge);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 229, 255, 0.45);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--cyan);
+  margin-bottom: 26px;
+  animation: fadeInUp 0.8s ease 0.1s forwards;
+  opacity: 0;
+}
+
+.hero p.tagline {
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  color: var(--white);
+  margin: 24px auto 40px;
+  line-height: 1.8;
+  max-width: 700px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.85), 0 1px 3px rgba(0,0,0,0.9);
+  animation: fadeInUp 0.8s ease 0.25s forwards;
+  opacity: 0;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  animation: fadeInUp 0.8s ease 0.35s forwards;
+  opacity: 0;
+}
+
+.btn-primary {
+  padding: 16px 40px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, var(--cyan), #00b8d4);
+  color: var(--on-accent);
+  font-weight: 800;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s ease;
+  box-shadow: 0 10px 34px var(--cyan-soft);
+  position: relative;
+}
+.btn-primary:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 16px 44px var(--cyan-soft), 0 0 30px rgba(0, 184, 113, 0.45);
+  animation: pulseRing 1.4s ease;
+}
+
+.btn-secondary {
+  padding: 16px 40px;
+  border-radius: 30px;
+  background: var(--glass-btn-secondary);
+  border: 1.5px solid var(--border-color);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 1rem;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+  backdrop-filter: blur(10px);
+}
+.btn-secondary:hover {
+  border-color: var(--gold);
+  background: var(--gold-soft);
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 14px 34px rgba(255, 201, 60, 0.3);
+}
+
+.hero-stats {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 54px;
+  margin-top: 74px;
+  flex-wrap: wrap;
+  animation: fadeInUp 0.8s ease 0.45s forwards;
+  opacity: 0;
+}
+.hero-stat { text-align: center; min-width: 0; }
+.hero-stat h3 {
+  font-size: 2.1rem;
+  font-weight: 900;
+  color: var(--white);
+  animation: countPulse 3s ease-in-out infinite;
+  white-space: nowrap;
+}
+.hero-stat span {
+  color: var(--gray-text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   TABS (Live Results / Schedules)
+   ============================================================ */
+/* ============================================================
+   API STATUS STATES (loading / error / not-configured)
+   ============================================================ */
+.api-status-card {
+  padding: 28px 30px;
+  border-radius: var(--radius-lg);
+  background: var(--glass-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  margin-bottom: 30px;
+}
+.api-status-title { font-weight: 800; font-size: 1.05rem; margin-bottom: 8px; }
+.api-status-body { color: var(--gray-text); font-size: 0.92rem; line-height: 1.8; }
+.api-status-body code {
+  background: rgba(0, 229, 255, 0.1);
+  color: var(--cyan);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.85em;
+}
+.api-status-error { border-color: var(--crimson); }
+.api-status-error .api-status-title { color: var(--crimson); }
+.api-status-warning { border-color: var(--gold-classic); }
+.api-status-warning .api-status-title { color: var(--gold-bright); }
+.api-status-card .btn-secondary { margin-top: 14px; padding: 10px 24px; font-size: 0.85rem; }
+
+.stale-notice {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--gold-bright);
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  padding: 7px 16px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.demo-notice {
+  color: var(--emerald, #10b981);
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.show-all-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+.show-all-btn {
+  padding: 13px 36px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.14), rgba(0, 229, 255, 0.1));
+  border: 1.5px solid var(--gold-classic);
+  color: var(--gold-bright);
+  font-weight: 800;
+  font-size: 0.92rem;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s ease, background 0.35s ease;
+}
+.show-all-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.35);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.24), rgba(0, 229, 255, 0.16));
+}
+.show-all-btn:active { transform: translateY(-1px) scale(0.97); }
+
+.tabs-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 34px;
+  flex-wrap: wrap;
+}
+.tab-btn {
+  padding: 11px 24px;
+  border-radius: 30px;
+  border: 1px solid var(--border-color);
+  color: var(--gray-text);
+  font-weight: 700;
+  font-size: 0.88rem;
+  transition: var(--transition-fast);
+  background: var(--card-bg);
+}
+.tab-btn:hover { color: var(--white); border-color: var(--cyan); }
+.tab-btn.active {
+  color: var(--on-accent);
+  background: linear-gradient(135deg, var(--cyan), var(--emerald));
+  border-color: transparent;
+  box-shadow: 0 6px 20px var(--cyan-soft);
+}
+
+/* Sub-group filter row for "البطولة الجزائرية" (e.g. مجموعة وسط
+   شرق / مجموعة وسط غرب) — smaller and tighter than the main division
+   tabs above it, so the two-tier filter reads as parent/child. */
+.algerian-group-tabs { margin-top: -18px; }
+.tab-btn-sm { padding: 7px 18px; font-size: 0.78rem; }
+
+/* Per-division crest thumbnail (shown inside the tab button, before the
+   label) + the admin-only camera button/popover that lets a logged-in
+   admin add, replace, or remove that section's crest — see
+   AlgerianMatches.jsx / DivisionCrestEditor.jsx. */
+.algerian-division-tab-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Vertical division list (one section per row, replacing the old
+   horizontal row of tabs) — see AlgerianMatches.jsx. Label text and
+   crest are both enlarged to match the prominence of the main
+   "البطولة الجزائرية" title crest above them. */
+.algerian-division-tabs-vertical {
+  flex-direction: column;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  /* Compact & slim: cards sit closer together now that each row is
+     much shorter (per spec — "مضغوط"). */
+  gap: 10px;
+  /* Tighter than the shared .tabs-bar margin-bottom (34px) so the
+     group tabs / standings / results / fixtures that follow sit right
+     underneath this now-compact division list, in one tight sequence
+     (per spec), without affecting any other .tabs-bar on the site. */
+  margin-bottom: 18px;
+}
+.algerian-division-tab-item-vertical {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  /* Fix: this row is the "card" that must visibly contain the admin
+     camera button + its popover (see .division-crest-admin /
+     .division-crest-popover below). Explicit position+overflow so the
+     popover always has a real, unclipped positioning context to open
+     into, no matter what ancestor styles exist elsewhere on the page. */
+  position: relative;
+  overflow: visible;
+}
+.algerian-division-tab-item-vertical .tab-btn {
+  /* Fix: was `width: 100%`, which — combined with the admin camera
+     button sitting right after it as a flex sibling in this same row —
+     pushed the camera control (and therefore its dropdown) outside the
+     row's visible width instead of letting both share it. `flex: 1`
+     lets the button fill the remaining space while still leaving real,
+     on-screen room for the camera button next to it. */
+  flex: 1 1 auto;
+  min-width: 0;
+  justify-content: flex-start;
+  gap: 16px;
+  /* Compact & slim (per spec): far less vertical padding/height than
+     before so the section card reads as a slim row, not a tall block. */
+  padding: 8px 18px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  border-radius: 14px;
+  /* Enlarged (per spec) to comfortably fit the bigger crest below plus
+     top/bottom breathing room, so the badge is never cropped. */
+  min-height: 122px;
+}
+.algerian-division-crest-large {
+  /* Enlarged (per spec — "تكبير حجم عنصر الصورة الفعلي"): a real,
+     substantially bigger image element and circular frame, not just a
+     bigger container, so the crest reads as large and unmistakably
+     clear inside each compact section row. object-fit: cover is
+     inherited from the shared .division-crest-img rule below, so the
+     artwork fills this bigger circle edge-to-edge with no gaps. */
+  width: 104px;
+  height: 104px;
+  margin-inline-end: 0;
+  border-width: 3px;
+  border-color: rgba(212, 175, 55, 0.55);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0;
+}
+/* Main championship title + single main crest/logo row (replaces the old
+   per-"الكل"-tab crest). See AlgerianMatches.jsx. */
+.algerian-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.algerian-main-crest-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.algerian-main-crest-wrap .division-crest-img {
+  width: 48px;
+  height: 48px;
+  margin-inline-end: 0;
+  border-width: 2px;
+  border-color: rgba(212, 175, 55, 0.55);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+}
+.division-crest-img {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  object-fit: cover;
+  /* Keeps the image centered and filling the circular frame edge-to-
+     edge (no empty ring around it) at every size, including the large
+     section-card variant below (per spec — "يملأ الدائرة بوضوح"). */
+  object-position: center;
+  margin-inline-end: 7px;
+  vertical-align: middle;
+  border: 1px solid rgba(255,255,255,0.35);
+  flex-shrink: 0;
+}
+.tab-btn { display: inline-flex; align-items: center; }
+.division-crest-admin {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-inline-start: 4px;
+  /* Fix: keep this control (and its popover) at its own natural size
+     inside the flex row instead of ever being squeezed to nothing. */
+  flex-shrink: 0;
+}
+.division-crest-camera-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid var(--gold-classic);
+  background: var(--glass-badge);
+  color: var(--gold-bright);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.division-crest-camera-btn svg { width: 11px; height: 11px; }
+.division-crest-camera-btn:hover { transform: scale(1.08); box-shadow: 0 0 10px var(--gold-soft); }
+.division-crest-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  /* Fix: the camera button sits at the end of its row, right at the
+     row's own edge. Anchoring the popover by its *end* edge (instead
+     of its start edge) makes it open back over the row/card itself
+     rather than outward past it, which is what was clipping/hiding it
+     (see .algerian-division-tab-item-vertical fix above for the other
+     half of this fix). */
+  inset-inline-end: 0;
+  inset-inline-start: auto;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 230px;
+  /* Fix: never let the popover itself be wider than the viewport on
+     very small screens, so it can't get cut off at the screen edge
+     either. */
+  max-width: min(230px, calc(100vw - 32px));
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--dark-navy, #050b1a);
+  border: 1px solid var(--gold-classic);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.55);
+}
+.division-crest-popover-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--white);
+  white-space: normal;
+}
+.division-crest-popover-btn {
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--white);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+.division-crest-popover-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+.division-crest-popover-btn--save { flex-shrink: 0; }
+.division-crest-popover-btn--remove { border-color: rgba(220,60,60,0.5); color: #ff7a7a; }
+.division-crest-popover-btn--remove:hover { border-color: #ff4d4d; color: #ff4d4d; }
+.division-crest-popover-or {
+  font-size: 0.72rem;
+  color: var(--gray-text);
+  text-align: center;
+}
+.division-crest-popover-url-row { display: flex; gap: 6px; }
+.division-crest-url-input {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 9px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--white);
+  font-size: 0.78rem;
+}
+
+/* ============================================================
+   LIVE RESULTS SECTION
+   ============================================================ */
+.results-section { padding: 100px 0; position: relative; }
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+
+@media (max-width: 767px) {
+  .results-grid { grid-template-columns: 1fr; }
+}
+
+.match-card {
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  background: linear-gradient(160deg, var(--glass-card) 0%, var(--glass-card-alt) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  transition: var(--transition-med);
+  position: relative;
+  overflow: hidden;
+}
+.match-card::before {
+  content: '';
+  position: absolute; top: 0; right: 0; left: 0; height: 3px;
+  background: linear-gradient(90deg, var(--cyan), var(--emerald), var(--gold));
+}
+.match-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--cyan);
+  box-shadow: var(--shadow-glow-cyan), 0 0 40px rgba(0, 184, 113, 0.18);
+}
+
+.match-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.match-status-live {
+  display: flex; align-items: center; gap: 6px;
+  color: var(--crimson); font-weight: 800; font-size: 0.75rem;
+}
+.match-status-live .live-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--crimson);
+  animation: liveDot 1.2s ease-in-out infinite;
+  box-shadow: 0 0 8px var(--crimson);
+}
+.match-status-finished { color: var(--gray-text); font-weight: 700; font-size: 0.75rem; }
+
+.match-teams {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.match-team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  text-align: center;
+}
+.match-team .flag { font-size: 2.1rem; line-height: 1; }
+.match-team .flag-img { width: 44px; height: auto; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+.match-team .team-name { font-size: 0.88rem; font-weight: 700; }
+
+.match-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0 6px;
+}
+.match-score .score-main {
+  font-size: 1.9rem;
+  font-weight: 900;
+  background: linear-gradient(90deg, var(--cyan), var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.match-score .vs-label { font-size: 0.7rem; color: var(--gray-text); font-weight: 700; }
+
+.match-sets {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.set-pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border-color);
+  color: var(--gray-text);
+}
+
+.match-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.75rem;
+  color: var(--gray-text);
+}
+
+/* ============================================================
+   MATCH SCHEDULES SECTION
+   ============================================================ */
+.schedule-section { padding: 100px 0; background: var(--navy-light); position: relative; }
+
+.schedule-list { display: flex; flex-direction: column; gap: 16px; }
+
+.schedule-card {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 22px 26px;
+  border-radius: var(--radius-lg);
+  background: var(--glass-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  transition: var(--transition-med);
+  flex-wrap: wrap;
+}
+.schedule-card:hover {
+  border-color: var(--gold);
+  transform: translateX(-4px);
+  box-shadow: var(--shadow-glow-gold), 0 0 40px rgba(0, 229, 255, 0.15);
+}
+
+.schedule-date-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 78px;
+  padding: 12px 10px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(160deg, rgba(0,229,255,0.14), rgba(255,201,60,0.1));
+  border: 1px solid var(--border-color);
+}
+.schedule-date-box .day { font-size: 1.5rem; font-weight: 900; color: var(--white); }
+.schedule-date-box .month { font-size: 0.7rem; color: var(--gray-text); font-weight: 700; }
+
+.schedule-teams {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  flex: 1;
+  min-width: 220px;
+}
+.schedule-teams .flag { font-size: 1.5rem; }
+.schedule-teams .flag-img { width: 28px; height: auto; border-radius: 3px; box-shadow: 0 2px 6px rgba(0,0,0,0.4); }
+.schedule-teams .vs { color: var(--gray-text); font-size: 0.85rem; font-weight: 600; }
+
+.schedule-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 200px;
+}
+.schedule-info .venue { font-size: 0.85rem; color: var(--gray-text); }
+.schedule-info .competition { font-size: 0.78rem; font-weight: 700; color: var(--cyan); }
+
+.countdown {
+  display: flex;
+  gap: 8px;
+}
+.countdown-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(0,229,255,0.08);
+  border: 1px solid var(--border-color);
+  min-width: 48px;
+}
+.countdown-box .num { font-size: 1rem; font-weight: 900; color: var(--cyan); }
+.countdown-box .lbl { font-size: 0.62rem; color: var(--gray-text); }
+
+/* ============================================================
+   ALGERIAN MATCHES SECTION (results | fixtures two-column grid)
+   ============================================================ */
+.algerian-matches-section { padding: 60px 0; position: relative; }
+
+.algerian-matches-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  /* Compact sequence (per spec): sits closer under the standings table
+     now that the division cards above take up much less height. */
+  margin-top: 10px;
+}
+
+.algerian-matches-column-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: var(--white);
+}
+
+.algerian-matches-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.algerian-matches-empty { color: var(--gray-text); font-size: 0.9rem; }
+
+.algerian-match-card {
+  border-radius: var(--radius-lg);
+  /* Compact view: tighter padding so a section's matches don't take up
+     a tall, disruptive stretch of the page — content still flows the
+     same, it's just denser (per spec). */
+  padding: 10px 14px;
+  background: linear-gradient(160deg, var(--glass-card) 0%, var(--glass-card-alt) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  transition: var(--transition-med);
+}
+.algerian-match-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--emerald);
+  box-shadow: 0 0 30px rgba(0, 184, 113, 0.18);
+}
+
+.algerian-match-teams {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.algerian-match-team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.algerian-match-vs { color: var(--gray-text); font-size: 0.78rem; font-weight: 700; }
+.algerian-match-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 0 6px;
+}
+.algerian-match-score .score-main {
+  font-size: 1.4rem;
+  font-weight: 900;
+  background: linear-gradient(90deg, var(--emerald), var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.algerian-match-score .vs-label { font-size: 0.62rem; color: var(--gray-text); font-weight: 700; }
+
+/* Per-set (الشوط الأول..الخامس) breakdown row — shown under the final
+   score, styled to match the live-results ".match-sets"/".set-pill"
+   cards (same layout: a full-width, centered, wrapping row of pills)
+   but in the Algerian section's emerald accent instead of live-results'
+   cyan, to stay consistent with the rest of this card. */
+.algerian-match-sets-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border-color);
+}
+.algerian-set-pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(0, 184, 113, 0.08);
+  border: 1px solid var(--border-color);
+  color: var(--gray-text);
+  white-space: nowrap;
+}
+
+.algerian-match-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.72rem;
+  color: var(--gray-text);
+}
+
+@media (max-width: 860px) {
+  .algerian-matches-grid { grid-template-columns: 1fr; }
+}
+
+/* Standings (جدول الترتيب) table for a selected division/group within
+   "البطولة الجزائرية". Reuses the existing .data-table / .table-scroll
+   look (shared with the admin panels) so it stays visually consistent
+   with the rest of the site without altering those shared rules. */
+.algerian-standings { margin-top: 10px; }
+.algerian-standings-scroll { margin-top: 4px; }
+.algerian-standings-table th,
+.algerian-standings-table td { text-align: center; white-space: nowrap; }
+.algerian-standings-table th:nth-child(2),
+.algerian-standings-table td:nth-child(2) { text-align: start; white-space: normal; }
+/* Compact view: tighter row height for this specific table only — this
+   selector is more specific than the shared .data-table th/td rule
+   used elsewhere (e.g. the admin panels), so it only affects the
+   Algerian standings table and doesn't touch that shared style. */
+.algerian-standings-table th,
+.algerian-standings-table td { padding: 8px 10px; }
+.algerian-standings-table { margin-top: 4px; }
+.algerian-standings-team {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+.algerian-standings-points {
+  font-weight: 900;
+  background: linear-gradient(90deg, var(--cyan), var(--emerald));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ============================================================
+   REELS SECTION
+   ============================================================ */
+.reels-section { padding: 100px 0; position: relative; }
+.reels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; }
+
+.reel-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  aspect-ratio: 9 / 16;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: var(--transition-med);
+}
+.reel-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-glow-cyan); border-color: var(--cyan); }
+.reel-card.is-playing { border-color: var(--gold-classic); box-shadow: var(--shadow-glow-gold), 0 0 24px rgba(212, 175, 55, 0.35); }
+
+.reel-video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  background: linear-gradient(160deg, var(--cyan) 0%, var(--navy) 55%, var(--gold) 130%);
+  cursor: pointer;
+  transition: var(--transition-med);
+}
+.reel-card:hover .reel-video { filter: brightness(1.08); }
+.reel-card.is-playing .reel-video { filter: brightness(1.04); }
+
+.reel-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(0deg, rgba(0,0,0,0.88) 0%, transparent 40%, rgba(0,0,0,0.3) 100%);
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 14px;
+}
+.reel-views {
+  align-self: flex-start;
+  display: flex; align-items: center; gap: 5px;
+  font-size: 0.75rem; font-weight: 700;
+  padding: 5px 10px; border-radius: 20px;
+  background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+}
+.reel-views svg { width: 14px; height: 14px; }
+.reel-info h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; line-height: 1.4; }
+
+/* ============================================================
+   ENGAGEMENT BAR — Instagram/Facebook-style like/comment/share,
+   reused on both video and news cards
+   ============================================================ */
+.engagement-bar { display: flex; align-items: center; gap: 6px; }
+.engagement-btn {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.82rem; font-weight: 700;
+  color: var(--white);
+  padding: 6px 11px; border-radius: 20px;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+}
+.engagement-btn svg {
+  width: 19px; height: 19px; flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s ease;
+}
+.engagement-btn:hover { transform: translateY(-2px); }
+.engagement-btn:active { transform: scale(0.88); }
+
+/* Like — Instagram pink/red */
+.engagement-btn--like:hover { color: #ff3b6e; background: rgba(255, 59, 110, 0.12); }
+.engagement-btn--like:hover svg { filter: drop-shadow(0 0 8px rgba(255, 59, 110, 0.5)); }
+.engagement-btn--like.is-active {
+  color: #ff3b6e;
+  background: rgba(255, 59, 110, 0.12);
+}
+.engagement-btn--like.is-active svg {
+  filter: drop-shadow(0 0 12px rgba(255, 59, 110, 0.75));
+  animation: engagementPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Comment — Facebook blue */
+.engagement-btn--comment:hover { color: #1877F2; background: rgba(24, 119, 242, 0.12); }
+.engagement-btn--comment:hover svg { filter: drop-shadow(0 0 8px rgba(24, 119, 242, 0.5)); }
+.engagement-btn--comment.is-active {
+  color: #1877F2;
+  background: rgba(24, 119, 242, 0.12);
+}
+.engagement-btn--comment.is-active svg {
+  filter: drop-shadow(0 0 12px rgba(24, 119, 242, 0.7));
+  animation: engagementPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Share — brand gold */
+.engagement-btn--share:hover { color: var(--gold); background: rgba(255, 201, 60, 0.12); }
+.engagement-btn--share:hover svg { filter: drop-shadow(0 0 8px rgba(255, 201, 60, 0.5)); }
+
+@keyframes engagementPop {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.45) rotate(-6deg); }
+  55% { transform: scale(0.9) rotate(3deg); }
+  75% { transform: scale(1.12) rotate(-1deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+/* ============================================================
+   NEWS SECTION
+   ============================================================ */
+.news-section { padding: 100px 0; background: var(--navy-light); position: relative; }
+.news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 28px; }
+
+.news-card {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--glass-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  transition: var(--transition-med);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.news-card:hover { transform: translateY(-6px); border-color: var(--cyan); box-shadow: var(--shadow-glow-cyan), 0 0 40px rgba(255, 201, 60, 0.15); }
+
+.news-image {
+  height: 190px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--emerald) 0%, var(--card-bg) 60%, var(--gold) 130%);
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 16px;
+}
+.news-image img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.news-image-scrim {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(3,7,17,0.55) 0%, rgba(3,7,17,0.15) 45%, rgba(3,7,17,0.75) 100%);
+  z-index: 1;
+}
+.news-image .badge, .news-image .news-date { position: relative; z-index: 2; }
+.news-date { font-size: 0.75rem; color: var(--white); background: rgba(0,0,0,0.55); padding: 5px 12px; border-radius: 20px; }
+.news-body {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.news-body h3 { font-size: 1.12rem; font-weight: 700; margin-bottom: 10px; line-height: 1.5; }
+.news-body p { color: var(--gray-text); font-size: 0.9rem; line-height: 1.7; margin-bottom: 16px; }
+.news-views {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 0.78rem; font-weight: 700; color: var(--gray-text);
+  margin-bottom: 10px;
+}
+.news-views svg { width: 15px; height: 15px; }
+.news-read-more { color: var(--cyan); font-weight: 700; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 6px; transition: var(--transition-fast); }
+.news-read-more:hover { gap: 10px; color: var(--gold); }
+
+.news-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* ============================================================
+   COMMENT MODAL — real, centered comment thread (portal-rendered,
+   same glassmorphism dialog treatment as the share modal)
+   ============================================================ */
+.comment-modal-box {
+  max-width: 440px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+.comment-list {
+  max-height: 220px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 14px 0;
+}
+.comment-empty { color: var(--gray-text); font-size: 0.8rem; padding: 6px 0; }
+.comment-item {
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: rgba(24, 119, 242, 0.06);
+  border-inline-start: 2px solid #1877F2;
+}
+.comment-text { font-size: 0.85rem; color: var(--white); line-height: 1.5; word-break: break-word; }
+.comment-date { font-size: 0.7rem; color: var(--gray-text); margin-top: 4px; display: block; }
+.comment-edited-tag { font-style: italic; opacity: 0.8; }
+
+/* Edit / delete controls, instantaneous state updates handled in JS */
+.comment-item-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 4px; flex-wrap: wrap; }
+.comment-item-actions { display: flex; gap: 4px; flex-shrink: 0; }
+.comment-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: var(--gray-text);
+  background: transparent;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+.comment-icon-btn svg { width: 13px; height: 13px; }
+.comment-icon-btn:hover { background: rgba(255, 255, 255, 0.08); color: var(--white); transform: scale(1.08); }
+.comment-icon-btn.danger:hover { background: rgba(255, 71, 87, 0.14); color: #ff4757; }
+.comment-icon-btn.confirm:hover { background: rgba(0, 200, 120, 0.14); color: #00c878; }
+
+.comment-delete-confirm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  color: var(--gray-text);
+  flex-wrap: wrap;
+}
+.comment-delete-confirm .comment-icon-btn { width: auto; height: auto; border-radius: 12px; padding: 3px 10px; font-size: 0.72rem; font-weight: 700; }
+
+.comment-edit-form { display: flex; flex-direction: column; gap: 6px; }
+.comment-edit-input { min-height: 36px; font-size: 0.82rem; padding: 8px 10px; }
+.comment-edit-actions { display: flex; justify-content: flex-end; gap: 4px; }
+
+.comment-form { display: flex; flex-direction: column; gap: 8px; }
+.comment-input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--navy-deep);
+  border: 1px solid var(--border-color);
+  color: var(--white);
+  font-size: 0.85rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 44px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.comment-input:focus { border-color: #1877F2; box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.18); }
+.comment-submit-btn {
+  align-self: flex-end;
+  padding: 8px 22px;
+  border-radius: 20px;
+  background: #1877F2;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.82rem;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+}
+.comment-submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(24, 119, 242, 0.4); }
+.comment-submit-btn:active { transform: scale(0.95); }
+
+/* ============================================================
+   SHARE MODAL
+   ============================================================ */
+.share-modal-box { max-width: 380px; }
+.share-options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 10px;
+}
+.share-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 10px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #ffffff;
+  text-align: center;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, filter 0.3s ease;
+}
+.share-option:hover { transform: translateY(-3px) scale(1.03); filter: brightness(1.1); }
+.share-option--whatsapp { background: #25D366; }
+.share-option--whatsapp:hover { box-shadow: 0 10px 24px rgba(37, 211, 102, 0.4); }
+.share-option--facebook { background: #1877F2; }
+.share-option--facebook:hover { box-shadow: 0 10px 24px rgba(24, 119, 242, 0.4); }
+.share-option--x { background: #0a0a0a; border: 1px solid #333; }
+.share-option--x:hover { box-shadow: 0 10px 24px rgba(255, 255, 255, 0.15); }
+.share-option--copy {
+  background: linear-gradient(135deg, var(--gold), var(--gold-classic));
+  color: var(--on-accent);
+}
+.share-option--copy:hover { box-shadow: 0 10px 24px rgba(212, 175, 55, 0.4); }
+.share-native-btn {
+  width: 100%;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.share-native-btn svg { width: 18px; height: 18px; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer { padding: 54px 0 34px; text-align: center; border-top: 1px solid var(--border-color); color: var(--gray-text); font-size: 0.85rem; position: relative; }
+.footer .vhub-logo { justify-content: center; margin-bottom: 18px; }
+.footer-links { display: flex; justify-content: center; gap: 24px; margin: 18px 0; flex-wrap: wrap; }
+.footer-links span { font-weight: 600; font-size: 0.82rem; }
+.footer-copyright { color: var(--gold); font-weight: 700; font-size: 0.85rem; margin-top: 10px; }
+
+/* ============================================================
+   LIVE VISITOR COUNTER + STAR RATING (footer, above dev signature)
+   ============================================================ */
+.visitor-rating-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 26px;
+}
+
+.visitor-counter-frame {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: linear-gradient(160deg, var(--glass-card) 0%, var(--glass-card-alt) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1.5px solid rgba(0, 229, 255, 0.5);
+  box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.5);
+  animation: visitorFramePulse 2.6s ease-in-out infinite;
+}
+@keyframes visitorFramePulse {
+  0% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.45), 0 0 14px rgba(0, 229, 255, 0.25); }
+  70% { box-shadow: 0 0 0 10px rgba(0, 229, 255, 0), 0 0 22px rgba(0, 229, 255, 0.4); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0), 0 0 14px rgba(0, 229, 255, 0.25); }
+}
+.visitor-counter-dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--emerald);
+  box-shadow: 0 0 8px var(--emerald);
+  animation: liveDot 1.3s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.visitor-counter-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gray-text);
+  white-space: nowrap;
+}
+.visitor-counter-value {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--cyan);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.35s ease;
+  font-variant-numeric: tabular-nums;
+}
+.visitor-counter-value.is-bumping {
+  animation: countPulse 0.42s ease;
+  color: var(--gold-bright);
+}
+
+.site-rating-widget {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: linear-gradient(160deg, var(--glass-card) 0%, var(--glass-card-alt) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1.5px solid rgba(255, 201, 60, 0.4);
+  box-shadow: 0 0 18px rgba(255, 201, 60, 0.12);
+}
+.site-rating-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--gray-text);
+  white-space: nowrap;
+}
+.site-rating-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.site-rating-star-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.site-rating-star-btn:hover,
+.site-rating-star-btn:focus-visible {
+  transform: scale(1.2) rotate(-4deg);
+}
+.site-rating-average {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--gold-bright);
+  white-space: nowrap;
+}
+.site-rating-thanks {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--emerald);
+  animation: fadeIn 0.3s ease;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .visitor-rating-wrap { flex-flow: row nowrap; justify-content: center; gap: 12px; }
+  .visitor-counter-frame, .site-rating-widget { padding: 8px 16px; flex: 0 1 auto; }
+  .visitor-counter-label, .site-rating-label { display: none; }
+}
+
+/* ============================================================
+   ADMIN LOGIN MODAL
+   ============================================================ */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(3, 7, 17, 0.82);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2000; animation: fadeIn 0.3s ease; padding: 20px;
+}
+.modal-box {
+  background: linear-gradient(160deg, var(--card-bg), var(--card-bg-alt));
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  width: 100%; max-width: 420px;
+  position: relative;
+  animation: fadeInUp 0.4s ease;
+  box-shadow: var(--shadow-deep), var(--shadow-glow-cyan);
+}
+.modal-close { position: absolute; top: 18px; inset-inline-end: 18px; font-size: 1.4rem; color: var(--gray-text); transition: var(--transition-fast); }
+.modal-close:hover { color: var(--crimson); transform: rotate(90deg); }
+.modal-box h2 { font-size: 1.5rem; font-weight: 900; margin-bottom: 6px; text-align: center; }
+.modal-box .modal-sub { text-align: center; color: var(--gray-text); font-size: 0.88rem; margin-bottom: 30px; }
+
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--gray-text); }
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%; padding: 13px 16px; border-radius: var(--radius-sm);
+  background: var(--navy-deep); border: 1px solid var(--border-color); color: var(--white);
+  font-size: 0.95rem; transition: var(--transition-fast);
+}
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+  border-color: var(--cyan); box-shadow: 0 0 0 3px var(--cyan-soft);
+}
+.form-group textarea { resize: vertical; min-height: 100px; }
+.form-error { color: var(--crimson); font-size: 0.82rem; margin-top: -10px; margin-bottom: 16px; }
+.upload-preview { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
+.upload-preview-thumb { width: 96px; height: 72px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); }
+.upload-preview-video { max-width: 240px; max-height: 150px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: #000; }
+.upload-preview-filename { font-size: 0.82rem; color: var(--gray-text); word-break: break-all; }
+
+.password-input-wrap { position: relative; }
+.password-input-wrap input { padding-inline-end: 44px; }
+.password-toggle-btn {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  inset-inline-end: 10px;
+  background: none; border: none; color: var(--gray-text); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; padding: 0; border-radius: 6px;
+  transition: var(--transition-fast);
+}
+.password-toggle-btn:hover { color: var(--cyan); background: var(--cyan-soft); }
+.password-toggle-btn svg { width: 18px; height: 18px; }
+
+.match-sets-grid { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
+.match-set-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.match-set-label { flex: 0 0 110px; font-size: 0.82rem; font-weight: 700; color: var(--gray-text); }
+.match-set-optional { font-style: normal; font-weight: 400; font-size: 0.7rem; margin-inline-start: 4px; }
+.match-set-row input[type='number'] { width: 72px; text-align: center; }
+.match-set-dash { color: var(--gray-text); font-weight: 700; }
+.match-type-toggle { display: flex; gap: 10px; flex-wrap: wrap; }
+.match-type-btn {
+  flex: 1; min-width: 160px; padding: 12px 16px; border-radius: var(--radius-sm);
+  background: var(--navy-deep); border: 1px solid var(--border-color); color: var(--gray-text);
+  font-weight: 700; font-size: 0.88rem; transition: var(--transition-fast); cursor: pointer;
+}
+.match-type-btn.active {
+  background: linear-gradient(135deg, var(--cyan), var(--emerald));
+  color: var(--on-accent); border-color: transparent;
+}
+.match-type-btn:not(.active):hover { border-color: var(--cyan); color: var(--white); }
+
+.btn-submit {
+  width: 100%; padding: 14px; border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--cyan), var(--emerald));
+  color: var(--on-accent); font-weight: 800; font-size: 1rem; transition: var(--transition-fast);
+}
+.btn-submit:hover { box-shadow: 0 8px 26px var(--cyan-soft); transform: translateY(-2px); }
+
+.demo-hint {
+  margin-top: 20px; padding: 12px; border-radius: var(--radius-sm);
+  background: rgba(0, 229, 255, 0.08); border: 1px dashed var(--cyan);
+  font-size: 0.78rem; color: var(--gray-text); text-align: center;
+}
+
+/* ============================================================
+   ADMIN DASHBOARD
+   ============================================================ */
+.admin-layout { display: flex; min-height: 100vh; background: var(--navy); }
+
+.admin-sidebar {
+  width: 270px; flex-shrink: 0;
+  background: var(--navy-light);
+  border-inline-end: 1px solid var(--border-color);
+  padding: 30px 20px;
+  display: flex; flex-direction: column;
+  position: sticky; top: 0; height: 100vh;
+}
+.admin-sidebar .vhub-logo { padding: 0 10px; margin-bottom: 40px; }
+.sidebar-nav { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.sidebar-btn {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 16px; border-radius: var(--radius-sm);
+  color: var(--gray-text); font-weight: 600; font-size: 0.92rem;
+  transition: var(--transition-fast); text-align: start;
+}
+.sidebar-btn:hover { background: rgba(0,229,255,0.06); color: var(--white); }
+.sidebar-btn.active {
+  background: linear-gradient(90deg, var(--cyan-soft), transparent);
+  color: var(--white); border-inline-start: 3px solid var(--cyan);
+}
+.sidebar-btn-icon { display: inline-flex; flex-shrink: 0; }
+.sidebar-btn-icon svg { width: 19px; height: 19px; }
+.sidebar-logout {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 13px 16px; border-radius: var(--radius-sm);
+  color: var(--crimson); font-weight: 700; font-size: 0.92rem;
+  border: 1px solid var(--crimson); transition: var(--transition-fast); text-align: center;
+}
+.sidebar-logout svg { width: 18px; height: 18px; flex-shrink: 0; }
+.sidebar-logout:hover { background: var(--crimson-soft); }
+
+.admin-main { flex: 1; padding: 40px 44px; overflow-y: auto; }
+.admin-header { position: relative; display: flex; justify-content: space-between; align-items: center; margin-bottom: 36px; flex-wrap: wrap; gap: 16px; }
+.admin-header h1 { font-size: 1.8rem; font-weight: 900; }
+.admin-header p { color: var(--gray-text); font-size: 0.9rem; margin-top: 4px; }
+
+/* Compact settings gear — pinned to the physical top-left corner of the
+   admin panel regardless of text direction, replacing the old large
+   "Account Settings" sidebar entry. */
+.admin-gear-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color);
+  color: var(--gray-text);
+  transition: transform 0.4s ease, color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+.admin-gear-btn svg { width: 18px; height: 18px; }
+.admin-gear-btn:hover { color: var(--cyan); border-color: var(--cyan); transform: rotate(45deg); }
+.admin-gear-btn.active { color: var(--cyan); border-color: var(--cyan); background: rgba(0, 229, 255, 0.08); }
+
+/* Account Settings panel — fixes the text-overlap bug: modal-sub had no
+   spacing rules outside .modal-box, and the username note used a fragile
+   negative margin that rode up into the subtitle above it. */
+.settings-panel-sub {
+  color: var(--gray-text);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  margin: 0 0 14px;
+}
+.settings-current-username {
+  font-size: 0.85rem;
+  color: var(--gray-text);
+  line-height: 1.6;
+  margin: 0 0 22px;
+}
+
+@media (max-width: 640px) {
+  .admin-gear-btn { top: -4px; left: -4px; width: 34px; height: 34px; }
+  .admin-header > div { padding-inline-start: 46px; }
+}
+
+.back-site-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 10px 22px; border-radius: 30px; border: 1px solid var(--border-color);
+  font-weight: 600; font-size: 0.88rem; transition: var(--transition-fast);
+}
+.back-site-btn svg { width: 17px; height: 17px; flex-shrink: 0; }
+.back-site-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px; margin-bottom: 20px; }
+.stats-note {
+  color: var(--gray-text);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  margin-bottom: 28px;
+  padding-inline-start: 4px;
+}
+.stat-card {
+  padding: 26px; border-radius: var(--radius-lg);
+  background: linear-gradient(160deg, var(--glass-card), var(--glass-card-alt));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  position: relative; overflow: hidden; transition: var(--transition-fast);
+}
+.stat-card:hover { transform: translateY(-4px); border-color: var(--cyan); box-shadow: var(--shadow-glow-cyan); }
+.stat-card .icon { display: inline-flex; margin-bottom: 14px; color: var(--cyan); }
+.stat-card .icon svg { width: 26px; height: 26px; }
+.stat-card h3 { font-size: 2rem; font-weight: 900; margin-bottom: 4px; }
+.stat-card span { color: var(--gray-text); font-size: 0.85rem; }
+
+.admin-panel {
+  background: var(--glass-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg); padding: 32px; margin-bottom: 28px;
+}
+.admin-panel h2 { font-size: 1.25rem; font-weight: 800; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+.admin-panel h2 svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--cyan); }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 640px) { .form-row { grid-template-columns: 1fr; } }
+
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.data-table { width: 100%; min-width: 480px; border-collapse: collapse; margin-top: 10px; }
+.data-table th {
+  text-align: start; padding: 12px 14px; color: var(--gray-text);
+  font-size: 0.8rem; font-weight: 700; border-bottom: 1px solid var(--border-color);
+}
+.data-table td { padding: 14px; border-bottom: 1px solid var(--border-color); font-size: 0.88rem; }
+.data-table tr:hover td { background: rgba(0,229,255,0.02); }
+
+.delete-btn {
+  color: var(--crimson); font-weight: 700; font-size: 0.85rem;
+  padding: 6px 14px; border-radius: var(--radius-sm); border: 1px solid var(--crimson);
+  transition: var(--transition-fast);
+}
+.delete-btn:hover { background: var(--crimson-soft); }
+
+.toast {
+  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+  background: var(--card-bg); border: 1px solid var(--cyan); color: var(--white);
+  padding: 14px 28px; border-radius: 30px; font-weight: 700; font-size: 0.9rem;
+  box-shadow: var(--shadow-deep); z-index: 3000; animation: fadeInUp 0.3s ease;
+  display: flex; align-items: center; gap: 10px;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* Tier A — moderate compaction. Social icons stay at full size here;
+   logo/nav-links/language-switcher/admin-button tighten just enough to
+   make room for them alongside everything else on one line. */
+@media (max-width: 1750px) {
+  .navbar-inner { gap: 12px; }
+  .vhub-logo { gap: 8px; }
+  .vhub-logo-mark { width: 36px; height: 36px; font-size: 1.1rem; }
+  .vhub-logo-text { font-size: 1.15rem; }
+  .nav-links { gap: 4px; }
+  .nav-links button { padding: 8px 12px; font-size: 0.85rem; }
+  .nav-actions { gap: 8px; }
+  .lang-switcher-btn { padding: 7px 10px; font-size: 0.78rem; }
+  .btn-admin { padding: 10px 18px; font-size: 0.82rem; }
+}
+
+/* Tier B — ultra-compact. Kicks in on narrower laptop widths: shrinks
+   the social icons themselves too, and tightens everything further, so
+   the logo, all 5 nav links, the language switcher, all 6 social icons,
+   and the admin button still all fit on one line with no wrapping. */
+@media (max-width: 1400px) {
+  .container { padding: 0 16px; }
+  .navbar-inner { gap: 8px; }
+  .vhub-logo { gap: 6px; }
+  .vhub-logo-mark { width: 30px; height: 30px; font-size: 0.95rem; }
+  .vhub-logo-text { font-size: 1rem; }
+  .nav-links { gap: 2px; }
+  .nav-links button { padding: 6px 9px; font-size: 0.78rem; }
+  .nav-actions { gap: 6px; }
+  .lang-switcher-btn { padding: 5px 8px; font-size: 0.7rem; }
+  .social-links-navbar .social-icon-btn { width: 28px; height: 28px; }
+  .social-links-navbar .social-icon-btn svg { width: 13px; height: 13px; }
+  .social-links-navbar { margin-inline-end: 0; }
+  .btn-admin { padding: 8px 14px; font-size: 0.76rem; }
+}
+
+/* Below this, even the ultra-compact tier runs out of room — collapse
+   into the hamburger / mobile menu, same as before. */
+@media (max-width: 1080px) {
+  .nav-links { display: none; }
+  .social-links-navbar { display: none; }
+  .navbar .mobile-toggle { display: flex; }
+}
+@media (max-width: 900px) {
+  .admin-sidebar { position: fixed; inset-inline-end: -280px; z-index: 1500; transition: var(--transition-med); box-shadow: var(--shadow-deep); }
+  .admin-sidebar.open { inset-inline-end: 0; }
+  .admin-main { padding: 30px 20px; }
+  .admin-mobile-toggle { display: flex; margin-bottom: 10px; }
+  .admin-panel { padding: 24px 18px; }
+  .stats-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+}
+@media (max-width: 640px) {
+  .hero-stats {
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+  .hero-stat { flex: 1 1 0; }
+  .hero-stat h3 { font-size: clamp(1.05rem, 5.2vw, 1.5rem); }
+  .hero-stat span { font-size: clamp(0.58rem, 2.6vw, 0.72rem); white-space: normal; line-height: 1.25; }
+  .hero-content { padding: 0 16px; }
+  .hero-actions { gap: 12px; }
+  .btn-primary, .btn-secondary { padding: 14px 26px; font-size: 0.9rem; }
+  .reels-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .news-grid { grid-template-columns: 1fr; }
+  .results-grid { grid-template-columns: 1fr; }
+  .schedule-card { flex-direction: column; align-items: flex-start; }
+  .schedule-teams, .schedule-info { min-width: 0; width: 100%; }
+  .countdown { align-self: center; flex-wrap: wrap; justify-content: center; }
+  .match-teams { flex-wrap: wrap; gap: 12px; justify-content: center; }
+  .match-score { order: 3; width: 100%; }
+  /* Same small-screen treatment as .match-teams/.match-score above,
+     applied to the Algerian championship cards so team names and the
+     score never get squeezed on narrow phones (360–420px). */
+  .algerian-match-teams { flex-wrap: wrap; gap: 12px; justify-content: center; }
+  .algerian-match-score { order: 3; width: 100%; }
+  .algerian-match-sets-row { gap: 6px; }
+  .algerian-set-pill { font-size: 0.68rem; padding: 3px 8px; }
+  .modal-box { padding: 28px 22px; }
+  .container { padding: 0 16px; }
+}
+@media (max-width: 480px) {
+  .reels-grid { grid-template-columns: 1fr; }
+  .hero-3d-mark, .hero-logo-wrap { width: 110px; height: 110px; }
+  .hero-logo-img { width: 110px; height: 110px; }
+  .vhub-logo-text { font-size: 0.95rem; }
+  .tab-btn { padding: 9px 16px; font-size: 0.8rem; }
+  .algerian-division-tab-item-vertical .tab-btn { font-size: 0.92rem; padding: 7px 14px; gap: 12px; min-height: 96px; }
+  /* Same compact-card / large-crest proportions as desktop (see
+     .algerian-division-tab-item-vertical .tab-btn and
+     .algerian-division-crest-large above), scaled slightly down so the
+     crest still fits comfortably on small screens while still nearly
+     filling the slim row. */
+  .algerian-division-crest-large { width: 80px; height: 80px; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .countdown-box { min-width: 40px; padding: 6px 8px; }
+  .schedule-date-box { min-width: 62px; }
+  .hero-stats { gap: 4px; }
+  .hero-stat h3 { font-size: clamp(0.95rem, 6vw, 1.25rem); }
+  .hero-stat span { font-size: clamp(0.52rem, 2.4vw, 0.66rem); }
+
+  /* Footer badge row: keep the live-visitor counter and star rating
+     pill side by side in one row, shrunk down to fit 360–430px. */
+  .visitor-rating-wrap {
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+  .visitor-counter-frame,
+  .site-rating-widget {
+    padding: 7px 12px;
+    gap: 6px;
+    flex: 0 1 auto;
+  }
+  .visitor-counter-value { font-size: 0.8rem; }
+  .site-rating-stars { gap: 1px; }
+  .site-rating-star-btn svg { width: 14px; height: 14px; }
+  .site-rating-average { font-size: 0.68rem; }
+}
+
+/* ==========================================================================
+   Developer signature block (footer) — ultra-compact horizontal
+   glassmorphism pill, glow border, hover animation. Optimized footprint:
+   a single row instead of a stacked column, so the footer stays short.
+   ========================================================================== */
+.dev-signature-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+  margin: 20px auto 2px;
+}
+.dev-signature-title {
+  margin: 0 0 10px;
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-align: center;
+  background: linear-gradient(90deg, #f5f5f5, #d4af37, #f5f5f5);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: devShimmer 5s linear infinite;
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+.dev-signature {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015));
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+}
+.dev-signature:hover {
+  border-color: rgba(212, 175, 55, 0.55);
+  box-shadow: 0 10px 32px rgba(212, 175, 55, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+.dev-signature-glow {
+  position: absolute;
+  inset: -70% -15%;
+  background: radial-gradient(closest-side, rgba(212, 175, 55, 0.22), transparent 70%);
+  filter: blur(10px);
+  opacity: 0.5;
+  pointer-events: none;
+  animation: devGlowDrift 9s ease-in-out infinite alternate;
+}
+@keyframes devGlowDrift {
+  0% { transform: translate(-6%, -4%) scale(1); }
+  100% { transform: translate(6%, 4%) scale(1.08); }
+}
+.dev-signature-pill {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+/* Contact label, positioned neatly right next to the social icons inside
+   the pill (the border stands in for a divider, so no separate element
+   is needed between the label and the icon row). */
+.dev-signature-contact {
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: var(--gold, #d4af37);
+  font-weight: 700;
+  white-space: nowrap;
+  padding-inline-end: 10px;
+  border-inline-end: 1px solid rgba(212, 175, 55, 0.3);
+}
+@keyframes devShimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+.dev-signature-social {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.dev-signature-social .social-icon-btn {
+  width: 28px;
+  height: 28px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  background: rgba(255, 255, 255, 0.04);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+}
+.dev-signature-social .social-icon-btn svg { width: 14px; height: 14px; }
+.dev-signature-social .social-icon-btn:hover {
+  transform: translateY(-3px) scale(1.08);
+}
+
+@media (max-width: 480px) {
+  .dev-signature { padding: 8px 14px; }
+  .dev-signature-title { font-size: 0.86rem; }
+  .dev-signature-contact { font-size: 0.7rem; padding-inline-end: 8px; }
+}
+
+
+/* ============================================================
+   FIXES & HARDENING — appended block. Nothing above this line was
+   removed; these rules extend/override earlier ones via the cascade.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1) REELS / VIDEOS — working player (no more black screen)
+   ------------------------------------------------------------ */
+.reel-video {
+  /* Show the WHOLE frame (landscape clips are letter-boxed, portrait
+     reels fill the card) on a solid dark base instead of a crop. */
+  object-fit: contain;
+  background: #050b1a;
+  border: 0;
+  display: block;
+}
+.reel-card:hover .reel-video { filter: none; }
+
+/* The gradient/info overlay must never swallow taps meant for the native
+   video controls — only its own buttons stay interactive. */
+.reel-overlay { pointer-events: none; padding-bottom: 58px; }
+.reel-overlay .reel-views,
+.reel-overlay .reel-info,
+.reel-overlay .reel-play-btn { pointer-events: auto; }
+.reel-card.is-playing .reel-overlay {
+  background: linear-gradient(0deg, rgba(0,0,0,0.72) 0%, transparent 34%, transparent 82%, rgba(0,0,0,0.35) 100%);
+}
+
+.reel-play-btn,
+.reel-facade-play {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px; height: 64px; border-radius: 50%;
+  display: grid; place-items: center;
+  color: #fff;
+  background: rgba(3, 7, 17, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+  transition: transform var(--transition-fast), background var(--transition-fast);
+}
+.reel-play-btn svg, .reel-facade-play svg { margin-inline-start: 3px; }
+.reel-play-btn:hover, .reel-embed-facade:hover .reel-facade-play {
+  transform: translate(-50%, -50%) scale(1.08);
+  background: rgba(0, 229, 255, 0.28);
+}
+/* The reel card is a pure static poster (no <video> element sits under it
+   any more — see the "PURE STATIC POSTER CARD" note in
+   components/VideoPlayer.jsx), so the big round play button below is the
+   card's only "tap to watch" affordance and stays visible on every device,
+   touch included. */
+
+.reel-embed-facade { padding: 0; cursor: pointer; color: inherit; }
+.reel-embed { background: #000; }
+.reel-video--loading { background: #050b1a; }
+
+/* ------------------------------------------------------------
+   1c) REELS / VIDEOS — buffering/loading spinner (modal video +
+   platform embeds). Purely visual and inert (`pointer-events: none`)
+   so it never blocks a tap on the native controls underneath it. See
+   BufferSpinner in VideoPlayer.jsx and the "BUFFERING / LOADING STATE"
+   note there.
+   ------------------------------------------------------------ */
+.reel-buffer-spinner {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+  z-index: 6;
+  background: rgba(3, 7, 17, 0.18);
+  border-radius: inherit;
+}
+.reel-buffer-spinner-ring {
+  width: 42px; height: 42px;
+  border: 3px solid rgba(255, 255, 255, 0.25);
+  border-top-color: var(--cyan);
+  border-radius: 50%;
+  animation: dvSpin 0.8s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reel-buffer-spinner-ring { animation: none; border-top-color: rgba(255, 255, 255, 0.6); }
+}
+
+.reel-fallback-poster {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; opacity: 0.5;
+}
+.reel-video--fallback { display: block; }
+.reel-fallback-box {
+  position: absolute; left: 12px; right: 12px; top: 50%;
+  transform: translateY(-50%);
+  text-align: center; padding: 14px 12px;
+  border-radius: var(--radius-md);
+  background: rgba(3, 7, 17, 0.88);
+  border: 1px solid var(--border-color);
+  font-size: 0.85rem; line-height: 1.6; color: var(--white);
+}
+.reel-fallback-link {
+  display: inline-block; margin-top: 8px;
+  color: var(--gold); font-weight: 800; text-decoration: underline;
+}
+
+/* ------------------------------------------------------------
+   1b) REELS / VIDEOS — GPU compositor "black frame, audio only" fix.
+   Some Chromium builds decode and play a <video> under a CSS
+   filter/transition just fine (audio runs) but never paint its first
+   frame until something forces a brand-new compositor layer —
+   entering fullscreen, resizing the window, or tapping repeatedly.
+   Promoting the element to its own GPU layer up front removes the
+   need for that accidental trigger. See VideoPlayer.jsx / Hero.jsx
+   for the matching `onLoadedData`/`onCanPlay` JS-side nudge.
+   ------------------------------------------------------------ */
+.reel-video,
+.hero-video {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* Explicit poster overlay layer (belt-and-suspenders alongside the
+   native `poster` attribute on <video>): guarantees the cover image
+   painted by the admin's upload is visible the instant the reel card
+   mounts, even on the odd browser/webview that ignores or delays the
+   native attribute. Sits above the <video> but below the card's own
+   info/controls overlay, and fades out for good once playback starts.
+
+   PERMANENT BACKGROUND LAYER — z-index is pinned here, in CSS, on
+   purpose (paired with `.reel-plyr--card`'s z-index just below) so this
+   cover is *always* the base layer the card paints, and Plyr's own
+   poster/play-button layer is *always* stacked above it — a fixed,
+   load-bearing CSS rule rather than something toggled at runtime. This
+   <img> itself is never conditionally rendered, keyed, or removed from
+   the DOM by VideoPlayer.jsx for as long as the reel card exists (see
+   the "PERMANENT POSTER LAYER" comment there), so between the two there
+   is no instant, including the moment the video modal opens or closes,
+   where the card can show anything but this cover — no black screen, no
+   flash, no gap, ever. */
+.reel-video-poster {
+  position: absolute; inset: 0;
+  z-index: 0;
+  width: 100%; height: 100%;
+  object-fit: contain;
+  background: #050b1a;
+  pointer-events: none;
+  transition: opacity var(--transition-med);
+}
+.reel-video-poster--hidden {
+  opacity: 0;
+}
+
+/* Cinematic fullscreen-on-play (see requestVideoFullscreen() in
+   services/videoSource.js): once the browser puts the <video> into its
+   own native fullscreen surface, make sure the whole frame is shown
+   letterboxed on black rather than cropped, on every vendor-prefixed
+   fullscreen pseudo-class. This targets the standard element the video
+   is fullscreened on, and the built-in ::backdrop behind it. */
+.reel-video:fullscreen,
+.reel-video:-webkit-full-screen,
+.reel-video:-moz-full-screen,
+.reel-video:-ms-fullscreen {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+.reel-video::backdrop,
+.reel-video::-webkit-full-screen-backdrop {
+  background: #000;
+}
+
+/* Admin: upload progress + pasted-link field */
+.upload-status { margin-top: 8px; font-size: 0.82rem; font-weight: 700; color: var(--cyan); }
+.upload-status::before {
+  content: ''; display: inline-block; width: 12px; height: 12px; margin-inline-end: 8px;
+  border: 2px solid var(--cyan); border-top-color: transparent; border-radius: 50%;
+  vertical-align: -2px; animation: dvSpin 0.8s linear infinite;
+}
+@keyframes dvSpin { to { transform: rotate(360deg); } }
+.video-link-input { margin-top: 10px; width: 100%; }
+.form-hint { margin-top: 6px; font-size: 0.76rem; color: var(--gray-text); line-height: 1.5; }
+
+/* ------------------------------------------------------------
+   2) NEWS COVER IMAGES — always fully visible, never cropped
+   The image is drawn with object-fit: contain (the complete picture),
+   over a blurred, dimmed copy of itself that fills the leftover space,
+   inside a fluid 16:9 frame. Works for portrait, square, landscape and
+   panoramic covers on every screen size.
+   ------------------------------------------------------------ */
+.news-image {
+  height: auto;
+  aspect-ratio: 16 / 9;
+  min-height: 0;
+  isolation: isolate;
+  padding: 12px;
+}
+.news-image.has-cover::before {
+  content: '';
+  position: absolute; inset: -28px;
+  background-image: var(--news-cover);
+  background-size: cover; background-position: center;
+  filter: blur(26px) saturate(1.2) brightness(0.55);
+  transform: scale(1.1);
+  z-index: 0;
+}
+.news-image img {
+  object-fit: contain;
+  object-position: center;
+  z-index: 1;
+}
+.news-image-scrim {
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(3,7,17,0.5) 0%, rgba(3,7,17,0) 26%, rgba(3,7,17,0) 74%, rgba(3,7,17,0.3) 100%);
+}
+.news-image .badge, .news-image .news-date { z-index: 3; }
+
+/* ------------------------------------------------------------
+   3) RESPONSIVE HARDENING — phones, tablets, laptops, large desktops.
+   Defensive rules only: they prevent overflow/overlap without changing
+   the existing layout breakpoints above.
+   ------------------------------------------------------------ */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+/* Media can never be wider than its container. */
+img, video, iframe, canvas { max-width: 100%; }
+
+/* Grid/flex children may shrink below their content width — the classic
+   cause of sideways scrolling with long titles or URLs. */
+.news-card, .reel-card, .stat-card, .algerian-match-card, .container > * { min-width: 0; }
+.news-card h3, .news-card p,
+.reel-card h4,
+.comment-item, .comment-item p {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* Wide tables (standings, admin lists) scroll inside their own box. */
+.table-scroll { max-width: 100%; }
+
+/* Fluid headings so long Arabic/French titles fit on 320px phones. */
+.section-title { font-size: clamp(1.55rem, 5.4vw, 2.3rem); }
+
+/* Comfortable touch targets on touch screens (WCAG 2.5.5 target size). */
+@media (pointer: coarse) {
+  .engagement-btn { min-height: 40px; min-width: 40px; }
+  button, .btn, [role="button"] { touch-action: manipulation; }
+}
+
+/* ------------------------------------------------------------
+   REELS / VIDEOS — mobile "pull-to-refresh" guard.
+   On Android Chrome (and some other mobile browsers) a downward drag
+   that starts while the page is scrolled to the very top is interpreted
+   as a pull-to-refresh gesture UNLESS something tells the browser the
+   touch is being consumed for something else — reloading the whole page
+   is exactly the "إعادة تحميل الصفحة" symptom reported when someone
+   taps/drags on a reel video or its cinematic modal. `overscroll-behavior`
+   tells the browser this element (and the page as a whole) owns its own
+   scroll/gesture handling instead of falling through to that native
+   browser gesture — with no effect on ordinary scrolling or on the
+   modal's real scroll-lock in VideoPlayer.jsx above.
+   ------------------------------------------------------------ */
+html, body {
+  overscroll-behavior-y: contain;
+}
+.reel-card,
+.reel-video,
+.reel-video-fs-wrap,
+.reel-modal-overlay,
+.reel-modal-inner,
+.reel-modal-video,
+.hero-video {
+  overscroll-behavior: contain;
+  /* `manipulation` = normal tap/scroll gestures stay usable, but the
+     browser stops treating the same drag as a pinch-zoom/double-tap
+     zoom or — combined with `overscroll-behavior: contain` above — a
+     pull-to-refresh, which is exactly the "قفزة" / "إعادة تحميل الصفحة"
+     reported specifically on Chrome/Safari on phones when someone
+     drags on a reel video or its cinematic modal. */
+  touch-action: manipulation;
+}
+/* The modal's backdrop is not meant to scroll or pan at all (its content
+   always fits the viewport by design — see `.reel-modal-inner`), so it
+   stays fully sealed off from every native browser gesture, not just
+   refresh — a stricter guard than `manipulation` above, kept
+   intentionally on the backdrop only so the video and its buttons below
+   still get normal tap/scrub behaviour. */
+.reel-modal-overlay {
+  touch-action: none;
+}
+
+/* Very small phones (≤ 360px): tighter gutters so nothing is squeezed. */
+@media (max-width: 360px) {
+  .container { padding: 0 14px; }
+  .news-grid, .reels-grid { gap: 14px; }
+  .reel-card .reel-overlay { padding-inline: 10px; }
+  .reel-play-btn, .reel-facade-play { width: 54px; height: 54px; }
+}
+
+/* Large / ultra-wide desktops: keep line-length and grids comfortable. */
+@media (min-width: 1600px) {
+  .container { max-width: 1480px; }
+}
+
+/* Respect users who ask the OS for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  .upload-status::before { animation: none; }
+  .reel-play-btn, .reel-facade-play { transition: none; }
+}
+
+/* ------------------------------------------------------------
+   4) REELS / VIDEOS — fullscreen close (×) button.
+   The <video> now lives inside a `.reel-video-fs-wrap` container (see
+   VideoPlayer.jsx) instead of being fullscreened directly. A bare
+   <video> element cannot show any sibling/overlay content once native
+   fullscreen takes over — only the fullscreen element itself and its
+   descendants stay visible — so the wrapper is what gets fullscreened
+   (see requestVideoFullscreen() in services/videoSource.js), which lets
+   this close button keep showing on top of the video.
+   ------------------------------------------------------------ */
+.reel-video-fs-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Once the wrapper is the actual browser fullscreen element, make sure
+   it fills the whole screen on a solid black base — matching the same
+   "letterboxed, never cropped" treatment the video already had. */
+.reel-video-fs-wrap:fullscreen,
+.reel-video-fs-wrap:-webkit-full-screen,
+.reel-video-fs-wrap:-moz-full-screen,
+.reel-video-fs-wrap:-ms-fullscreen {
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+.reel-video-fs-wrap::backdrop,
+.reel-video-fs-wrap::-webkit-full-screen-backdrop {
+  background: #000;
+}
+
+/* The × button itself: hidden on the small reel card (it would just be
+   visual noise on a thumbnail) and only revealed once the wrapper above
+   is genuinely in native fullscreen, across every vendor prefix. */
+.reel-close-btn {
+  display: none;
+  position: absolute;
+  top: 14px;
+  inset-inline-end: 14px;
+  z-index: 30;
+  width: 38px;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(3, 7, 17, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+.reel-close-btn:hover,
+.reel-close-btn:focus-visible {
+  background: rgba(255, 59, 48, 0.35);
+  transform: scale(1.06);
+}
+.reel-video-fs-wrap:fullscreen .reel-close-btn,
+.reel-video-fs-wrap:-webkit-full-screen .reel-close-btn,
+.reel-video-fs-wrap:-moz-full-screen .reel-close-btn,
+.reel-video-fs-wrap:-ms-fullscreen .reel-close-btn {
+  display: flex;
+}
+@media (pointer: coarse) {
+  .reel-close-btn { width: 42px; height: 42px; top: env(safe-area-inset-top, 14px); }
+}
+
+/* ------------------------------------------------------------
+   5) REELS / VIDEOS — custom modal player (replaces native fullscreen).
+   See the "CUSTOM MODAL PLAYER" note in components/VideoPlayer.jsx: the
+   reel card no longer asks the browser for real fullscreen at all. This
+   is the dedicated, custom-built cinematic popup that takes over instead,
+   mounted through a React portal onto document.body so it always covers
+   the full viewport no matter where the reel card itself sits on the
+   page. Equivalent to `fixed inset-0 z-50 bg-black/95 flex items-center
+   justify-center` in a utility-class framework.
+   ------------------------------------------------------------ */
+.reel-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: env(safe-area-inset-top, 16px) env(safe-area-inset-right, 16px)
+    env(safe-area-inset-bottom, 16px) env(safe-area-inset-left, 16px);
+  background: rgba(3, 7, 17, 0.95);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  cursor: zoom-out;
+  animation: dvModalFadeIn var(--transition-fast, 0.18s) ease-out;
+}
+@keyframes dvModalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* v2: a subtle scale-up on the frame itself (streaming-platform feel) on
+   top of the overlay's existing fade — purely cosmetic, additive, and
+   skipped for visitors who asked the OS for less motion. */
+.reel-modal-inner { animation: dvModalScaleIn var(--transition-fast, 0.18s) ease-out; }
+@keyframes dvModalScaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reel-modal-overlay, .reel-modal-inner { animation: none; }
+}
+
+/* The video frame itself: capped so it never exceeds the viewport, always
+   letterboxed on black rather than cropped, and never itself a click
+   target for "close" (cursor reset to default, click stopped from
+   bubbling to the overlay in VideoPlayer.jsx). */
+.reel-modal-inner {
+  position: relative;
+  width: min(96vw, 1100px);
+  max-height: 92vh;
+  display: flex;
+  cursor: default;
+}
+.reel-modal-video {
+  width: 100%;
+  max-height: 92vh;
+  object-fit: contain;
+  background: #000;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+/* ------------------------------------------------------------
+   Real Fullscreen toggle (⤢) — see toggleModalFullscreen() in
+   VideoPlayer.jsx and the "NATIVE FULLSCREEN TOGGLE" note there.
+   `.reel-modal-inner` itself (video + toolbar) is what the browser
+   fullscreens, never the bare <video>, so the toolbar keeps rendering
+   on top of it in real fullscreen exactly like it does in the modal —
+   a plain CSS resize with no layout shift, remount, or reload. Mirrors
+   the same `:fullscreen`/`::backdrop` letterboxing already used for
+   `.reel-video-fs-wrap` on the card above.
+   ------------------------------------------------------------ */
+.reel-modal-inner:fullscreen,
+.reel-modal-inner:-webkit-full-screen,
+.reel-modal-inner:-moz-full-screen,
+.reel-modal-inner:-ms-fullscreen {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+}
+.reel-modal-inner:fullscreen .reel-modal-video,
+.reel-modal-inner:-webkit-full-screen .reel-modal-video,
+.reel-modal-inner:-moz-full-screen .reel-modal-video,
+.reel-modal-inner:-ms-fullscreen .reel-modal-video {
+  max-height: 100%;
+  border-radius: 0;
+}
+.reel-modal-inner::backdrop,
+.reel-modal-inner::-webkit-full-screen-backdrop {
+  background: #000;
+}
+
+/* Toolbar — groups the ⤢ fullscreen toggle and the (×) close button so
+   they always sit together just above the video frame's top-right
+   corner, never covering the native video controls underneath them.
+   Replaces the old fullscreen-only `.reel-close-btn` with something
+   that's always visible, in the modal or in real fullscreen alike. */
+.reel-modal-controls {
+  position: absolute;
+  top: -18px;
+  inset-inline-end: -18px;
+  z-index: 2001;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.reel-modal-fullscreen-btn,
+.reel-modal-close {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(3, 7, 17, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+.reel-modal-fullscreen-btn:hover,
+.reel-modal-fullscreen-btn:focus-visible {
+  background: rgba(0, 229, 255, 0.35);
+  transform: scale(1.06);
+}
+.reel-modal-close:hover,
+.reel-modal-close:focus-visible {
+  background: rgba(255, 59, 48, 0.55);
+  transform: scale(1.06);
+}
+@media (pointer: coarse) {
+  .reel-modal-fullscreen-btn,
+  .reel-modal-close { width: 44px; height: 44px; }
+  .reel-modal-controls { top: -14px; inset-inline-end: -6px; }
+}
+@media (max-width: 480px) {
+  /* On very small phones, keep the toolbar fully on-screen instead of
+     bleeding past the video's edge. */
+  .reel-modal-inner { width: 100vw; }
+  .reel-modal-controls { top: 8px; inset-inline-end: 8px; }
+}
+
+/* ------------------------------------------------------------
+   6) REELS / VIDEOS — Plyr player (card + modal).
+   See components/PlyrVideo.jsx and the "PLYR PLAYER" note in
+   components/VideoPlayer.jsx. Plyr's own stylesheet (plyr/dist/plyr.css)
+   is imported by PlyrVideo.jsx; everything below only themes it and
+   makes it sit correctly inside the reel card and the modal. Each
+   vendor-prefixed fullscreen pseudo-class gets its own rule on purpose: a
+   single unknown pseudo-class in a selector list invalidates the whole
+   rule in every browser.
+   ------------------------------------------------------------ */
+.reel-plyr {
+  /* Plyr reads these custom properties from any ancestor. */
+  --plyr-color-main: var(--cyan);
+  --plyr-video-background: var(--navy);
+  --plyr-video-control-color-hover: var(--on-accent, #050b1a);
+  --plyr-font-family: inherit;
+  --plyr-control-radius: 8px;
+  --plyr-menu-radius: 12px;
+  position: relative;
+  min-width: 0;
+  /* The pull-to-refresh / gesture guards of the reel card and modal (see
+     "REELS / VIDEOS — mobile pull-to-refresh guard" above) extend to every
+     element Plyr adds. */
+  overscroll-behavior: contain;
+  touch-action: manipulation;
+}
+.reel-plyr .plyr {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  overscroll-behavior: contain;
+  touch-action: manipulation;
+}
+.reel-plyr .plyr__video-wrapper { height: 100%; }
+.reel-plyr .plyr video {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* ---- card: the cover image + one big play button -------------------- */
+.reel-plyr--card {
+  position: absolute;
+  inset: 0;
+  /* Always stacked above the permanent `.reel-video-poster` layer behind it
+     (z-index: 0, see index.css above) — fixed in CSS, not toggled at
+     runtime, so Plyr's own poster + big play button are reliably on top in
+     normal use, on every browser, with no dependency on DOM paint order. */
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+/* NOTE — the reel card no longer builds a Plyr instance at all (see the
+   "PURE STATIC POSTER CARD" note in components/VideoPlayer.jsx): the
+   `.reel-plyr--card` rules below are kept only for the modal's shared
+   `.reel-plyr` base styles further down and no longer match anything in
+   the card itself, so `.reel-play-btn` (index.css, `.reel-card
+   .reel-play-btn`) is the one and only play button visible on the card,
+   on every device.
+   ------------------------------------------------------------ */
+.reel-plyr--card .plyr__control--overlaid {
+  padding: 19px;
+  background: rgba(3, 7, 17, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+}
+.reel-plyr--card .plyr__control--overlaid svg { width: 26px; height: 26px; }
+.reel-plyr--card .plyr__control--overlaid:hover,
+.reel-plyr--card .plyr__control--overlaid:focus-visible {
+  background: rgba(0, 229, 255, 0.28);
+  color: #fff;
+}
+@media (max-width: 360px) {
+  .reel-plyr--card .plyr__control--overlaid { padding: 15px; }
+}
+
+/* ---- modal: a frame that hugs the clip ------------------------------- */
+/* `--reel-ar` (width / height) is set from the video's real dimensions by
+   VideoPlayer.jsx, so a portrait reel opens as a tall, narrow player and a
+   landscape clip as a wide one — never a wide black box around a thin
+   video. 16:9 until the size is known. */
+.reel-plyr--modal {
+  --reel-ar: 1.7778;
+  flex: 0 1 auto;
+  align-self: center;
+  width: min(100%, calc(92vh * var(--reel-ar)));
+  aspect-ratio: var(--reel-ar);
+  max-height: 92vh;
+  margin-inline: auto;
+}
+@supports (height: 100dvh) {
+  .reel-plyr--modal {
+    width: min(100%, calc(92dvh * var(--reel-ar)));
+    max-height: 92dvh;
+  }
+}
+.reel-plyr--modal .plyr {
+  overflow: hidden;
+  border-radius: 12px;
+  background: #000;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+/* The frame (`.plyr` above) carries the rounded corners and shadow now. */
+.reel-plyr--modal .reel-modal-video {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Fullscreen — Plyr fullscreens its `.plyr` container (real Fullscreen API)
+   or, where that API does not exist (iPhone Safari), pins it to the whole
+   window (`.plyr--fullscreen-fallback`). Either way the player fills the
+   screen edge to edge on black, the clip letterboxed, never cropped. */
+.reel-plyr .plyr:fullscreen {
+  border-radius: 0;
+  box-shadow: none;
+  background: #000;
+}
+.reel-plyr .plyr:-webkit-full-screen {
+  border-radius: 0;
+  box-shadow: none;
+  background: #000;
+}
+.reel-plyr .plyr--fullscreen-fallback {
+  border-radius: 0;
+  box-shadow: none;
+  background: #000;
+}
+.reel-plyr .plyr:fullscreen .reel-modal-video { max-height: none; height: 100%; }
+.reel-plyr .plyr:-webkit-full-screen .reel-modal-video { max-height: none; height: 100%; }
+.reel-plyr .plyr--fullscreen-fallback .reel-modal-video { max-height: none; height: 100%; }
+.reel-plyr .plyr:fullscreen::backdrop { background: #000; }
+.reel-plyr .plyr:-webkit-full-screen::backdrop { background: #000; }
+
+/* Close (×) button inside the Plyr frame (portalled there by VideoPlayer.jsx
+   so it is also on screen in fullscreen): top corner of the video, clear of
+   the control bar, and fading with the controls while a video plays. */
+.reel-plyr .reel-modal-controls {
+  top: max(10px, env(safe-area-inset-top, 0px));
+  inset-inline-end: max(10px, env(safe-area-inset-right, 0px));
+  transition: opacity 0.3s ease;
+}
+.reel-plyr .plyr.plyr--hide-controls .reel-modal-controls {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* The card copy of the video is only ever a cover (the tap opens the modal),
+   so its cover image is pinned on. Plyr itself only shows the cover while
+   currentTime is exactly 0 — but the `#t=0.001` first-frame hint (see
+   withFirstFrameHint in services/videoSource.js) moves the start position
+   to 0.001, which would make Plyr fade the cover out and show a raw video
+   frame instead. */
+.reel-plyr--card .plyr.plyr__poster-enabled .plyr__poster { opacity: 1 !important; }
+
+/* Keep the cover on screen until the first video frame has really been
+   presented (class toggled by PlyrVideo.jsx) — no black rectangle between
+   "play" and the first frame while the clip buffers. */
+.reel-plyr .plyr.plyr__poster-enabled.reel-plyr-awaiting-frame .plyr__poster { opacity: 1 !important; }
+
+/* ---------------------------------------------------------------------
+   Utility: fully circular image frame (same meaning as Tailwind's
+   `rounded-full` -- this project uses plain CSS, so it is defined here).
+   Declared last so it wins over the 12px radius on .vhub-logo-mark.
+   Applied to the site logo in the Navbar, the Hero badge and the admin
+   sidebar (all of which render logoUrl / logo2.jpeg).
+   --------------------------------------------------------------------- */
+.rounded-full { border-radius: 9999px; }
+img.rounded-full { object-fit: cover; }
